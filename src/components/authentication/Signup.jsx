@@ -33,62 +33,54 @@ export default function SignupForm() {
 
   // Fonction d'inscription
   const handleSignup = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrors({});
-    setSuccessMessage('');
+  e.preventDefault();
+  setLoading(true);
+  setErrors({});
+  setSuccessMessage('');
 
-    try {
-      // Choisir les bonnes données selon le type d'utilisateur
-      const userData = userType === 'client' ? formClient : formEntreprise;
+  try {
+    const userData = userType === 'client' ? formClient : formEntreprise;
 
-      const response = await axios.post(
-        'http://localhost:3000/api/auth/signup',
-        userData
-      );
+    const response = await axios.post('http://localhost:3000/api/auth/signup', userData);
 
-      console.log('Inscription réussie:', response.data);
-      setSuccessMessage('Inscription réussie !');
+    console.log('Inscription réussie:', response.data);
 
-      // Si c'est un client physique, on a directement le token
-      if (response.data.token) {
-        // Stocker le token
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
-        // Rediriger vers le dashboard
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1500);
-      } 
-      // Si c'est une entreprise, rediriger vers la page de connexion
-      else if (response.data.needRoleSelection) {
-        setTimeout(() => {
-          navigate('/se-connecter', { 
-            state: { 
-              message: 'Inscription réussie ! Connectez-vous pour choisir votre rôle.' 
-            } 
-          });
-        }, 1500);
-      }
+    if(response.data.success) {
+        const { user } = response.data;
+        localStorage.setItem('userId', user.userId); // <- c’est indispensable
+        localStorage.setItem('email', user.email);
 
-    } catch (error) {
-      console.error('Erreur lors de l\'inscription:', error);
-      
-      if (error.response?.data?.errors) {
-        // Erreurs de validation
-        setErrors({ general: error.response.data.errors.join(', ') });
-      } else if (error.response?.data?.message) {
-        // Message d'erreur du serveur
-        setErrors({ general: error.response.data.message });
-      } else {
-        // Erreur réseau
-        setErrors({ general: 'Erreur de connexion au serveur' });
-      }
-    } finally {
-      setLoading(false);
+        navigate('/verification-email');
     }
-  };
+
+    if (response.data.needsVerification) {
+
+      localStorage.setItem('userId', response.data.user.id); 
+      localStorage.setItem('email', response.data.user.email);
+      navigate('/verification-email');
+    }
+    
+    // Si déjà vérifié (ne devrait pas arriver)
+    else if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      navigate('/verification-email');
+    }
+
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'inscription:', error);
+    
+    if (error.response?.data?.errors) {
+      setErrors({ general: error.response.data.errors.join(', ') });
+    } else if (error.response?.data?.message) {
+      setErrors({ general: error.response.data.message });
+    } else {
+      setErrors({ general: 'Erreur de connexion au serveur' });
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="relative min-h-screen">

@@ -65,7 +65,7 @@ export default function LoginPage() {
         // Rediriger selon le rôle
         setTimeout(() => {
           if (response.data.currentRole === 'client_physique') {
-            navigate('/client/dashboard');
+            navigate('/');
           } else if (response.data.currentRole === 'promoteur') {
             navigate('/promoteur/dashboard');
           } else {
