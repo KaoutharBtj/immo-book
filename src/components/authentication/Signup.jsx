@@ -41,7 +41,7 @@ export default function SignupForm() {
   try {
     const userData = userType === 'client' ? formClient : formEntreprise;
 
-    const response = await axios.post('http://localhost:3000/api/auth/signup', userData);
+    const response = await axios.post('http://localhost:3000/api/v1/auth/signup', userData);
 
     console.log('Inscription réussie:', response.data);
 

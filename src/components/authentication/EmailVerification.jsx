@@ -99,7 +99,7 @@ export default function VerifyEmail() {
     }
     
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/verify-email', {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/verify-email', {
         userId,
         code: fullCode
       });

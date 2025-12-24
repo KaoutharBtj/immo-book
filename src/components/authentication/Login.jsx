@@ -39,7 +39,7 @@ export default function LoginPage() {
     setSuccessMessage('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/login', {
         email,
         password
       });
@@ -100,7 +100,7 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/select-role', {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/select-role', {
         userId,
         selectedRole
       });
@@ -117,11 +117,11 @@ export default function LoginPage() {
       // Rediriger selon le rôle
       setTimeout(() => {
         if (selectedRole === 'promoteur') {
-          navigate('/promoteur/dashboard');
+          navigate('/');
         } else if (selectedRole === 'client_entreprise') {
-          navigate('/client-entreprise/dashboard');
+          navigate('/');
         } else {
-          navigate('/dashboard');
+          navigate('/select-role');
         }
       }, 1500);
 

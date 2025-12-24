@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo et Description */}
           <div>
-            <img src="/assets/logoFooter.svg" alt="Logo ImmoBook" className="mb-4 h-16"/>
+            <img src="/assets/logoFooter.png" alt="Logo ImmoBook" className="mb-4 h-16"/>
         
             <p className="text-sm">
               Réservez en ligne et<br />
