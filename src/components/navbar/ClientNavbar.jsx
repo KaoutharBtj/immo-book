@@ -34,7 +34,7 @@ export default function ClientNavbar({ user, onLogout }) {
 
   const navLinks = [
     { to: "/client/accueil", label: "Accueil", icon: Home },
-    { to: "/client/tous-les-projets", label: "Tous les Projets", icon: Building2 },
+    { to: "/client/projets", label: "Tous les Projets", icon: Building2 },
     { to: "/client/mes-reservations", label: "Mes Réservations", icon: BookmarkCheck },
     { to: "/client/favoris", label: "Favoris", icon: Heart },
   ];
