@@ -10,7 +10,7 @@ const phaseService = {
    */
   addPhase: async (projectId, phaseData) => {
     try {
-      const response = await api.post(`/projects/${projectId}/phases`, phaseData);
+      const response = await api.post(`/projets/mes-prjets/${projectId}/phases`, phaseData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -22,7 +22,7 @@ const phaseService = {
    */
   updatePhase: async (projectId, phaseId, phaseData) => {
     try {
-      const response = await api.put(`/projects/${projectId}/phases/${phaseId}`, phaseData);
+      const response = await api.put(`/projets/${projectId}/phases/${phaseId}`, phaseData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -34,7 +34,7 @@ const phaseService = {
    */
   deletePhase: async (projectId, phaseId) => {
     try {
-      const response = await api.delete(`/projects/${projectId}/phases/${phaseId}`);
+      const response = await api.delete(`/projets/mes-projets/${projectId}/phases/${phaseId}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -52,7 +52,7 @@ const phaseService = {
       });
 
       const response = await api.post(
-        `/projects/${projectId}/phases/${phaseId}/images`,
+        `/projets/mes-projets/${projectId}/phases/${phaseId}/images`,
         formData,
         {
           headers: {
@@ -72,7 +72,7 @@ const phaseService = {
   deletePhaseImage: async (projectId, phaseId, imageUrl) => {
     try {
       const response = await api.delete(
-        `/projects/${projectId}/phases/${phaseId}/images`,
+        `/projects/mes-projets/${projectId}/phases/${phaseId}/images`,
         {
           data: { imageUrl }
         }

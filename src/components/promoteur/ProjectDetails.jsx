@@ -21,8 +21,42 @@ const ProjectDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('details');
-
-  console.log("Project ID from useParams:", projectId);
+  const [isEditMode, setIsEditMode] = useState(false); // ✅ CORRECTION 1: Déplacé ici
+  const [formData, setFormData] = useState({
+    titre: '',
+    description: '',
+    typeBien: '',
+    statut: '',
+    prix: 0,
+    dateDebut: '',
+    dateFinPrevue: '',
+    localisation: {
+      adresse: '',
+      ville: '',
+      codePostal: '',
+      quartier: '',
+      coordinates: { latitude: 0, longitude: 0 }
+    },
+    caracteristiques: {
+      surfaceTotale: 0,
+      nombreChambres: 0,
+      nombreSallesBain: 0,
+      etage: 0,
+      nombrePlacesParking: 0,
+      ascenseur: false,
+      balcon: false,
+      terrasse: false,
+      garage: false,
+      jardin: false,
+      piscine: false,
+      climatisation: false,
+      chauffage: false,
+      cuisine: '',
+      meuble: false,
+      securite: false,
+      gardien: false
+    }
+  });
 
   useEffect(() => {
     if (projectId) {
@@ -35,11 +69,91 @@ const ProjectDetails = () => {
     setError('');
     try {
       const data = await projectService.getProjectById(id);
-      console.log("Data backend", data); // <-- ici, pas data.response
-      setProject(data); 
+      console.log('Données reçues du backend:', data);
+      
+      setProject(data.project); 
+
+      // ✅ CORRECTION 2: Utiliser data.project au lieu de data
+      setFormData({
+        titre: data.project.titre || '',
+        description: data.project.description || '',
+        typeBien: data.project.typeBien || '',
+        statut: data.project.statut || '',
+        prix: data.project.prix || 0,
+        dateDebut: data.project.dateDebut ? data.project.dateDebut.split('T')[0] : '',
+        dateFinPrevue: data.project.dateFinPrevue ? data.project.dateFinPrevue.split('T')[0] : '',
+        localisation: {
+          adresse: data.project.localisation?.adresse || '',
+          ville: data.project.localisation?.ville || '',
+          codePostal: data.project.localisation?.codePostal || '',
+          quartier: data.project.localisation?.quartier || '',
+          coordinates: {
+            latitude: data.project.localisation?.coordinates?.latitude || 0,
+            longitude: data.project.localisation?.coordinates?.longitude || 0
+          }
+        },
+        caracteristiques: {
+          surfaceTotale: data.project.caracteristiques?.surfaceTotale || 0,
+          nombreChambres: data.project.caracteristiques?.nombreChambres || 0,
+          nombreSallesBain: data.project.caracteristiques?.nombreSallesBain || 0,
+          etage: data.project.caracteristiques?.etage || 0,
+          nombrePlacesParking: data.project.caracteristiques?.nombrePlacesParking || 0,
+          ascenseur: data.project.caracteristiques?.ascenseur || false,
+          balcon: data.project.caracteristiques?.balcon || false,
+          terrasse: data.project.caracteristiques?.terrasse || false,
+          garage: data.project.caracteristiques?.garage || false,
+          jardin: data.project.caracteristiques?.jardin || false,
+          piscine: data.project.caracteristiques?.piscine || false,
+          climatisation: data.project.caracteristiques?.climatisation || false,
+          chauffage: data.project.caracteristiques?.chauffage || false,
+          cuisine: data.project.caracteristiques?.cuisine || '',
+          meuble: data.project.caracteristiques?.meuble || false,
+          securite: data.project.caracteristiques?.securite || false,
+          gardien: data.project.caracteristiques?.gardien || false
+        }
+      });
     } catch (err) {
-      console.error(err);
+      console.error('Erreur chargement projet:', err);
       setError(err.message || 'Erreur lors du chargement du projet');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ CORRECTION 3: Ajouter handleChange pour les inputs
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    
+    if (name.includes('.')) {
+      // Pour les champs imbriqués (ex: localisation.ville)
+      const [parent, child] = name.split('.');
+      setFormData(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: type === 'checkbox' ? checked : value
+        }
+      }));
+    } else {
+      // Pour les champs simples
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      }));
+    }
+  };
+
+  // ✅ CORRECTION 4: Fonction handleSave corrigée
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await projectService.updateProject(projectId, formData);
+      await loadProject(projectId);
+      setIsEditMode(false);
+      alert('Projet mis à jour avec succès !');
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du projet:', err);
+      setError(err.message || 'Erreur lors de la mise à jour du projet');
     } finally {
       setLoading(false);
     }
@@ -63,8 +177,15 @@ const ProjectDetails = () => {
     }
   };
 
+  // ✅ CORRECTION 5: handleEdit active le mode édition
   const handleEdit = () => {
-    navigate(`/promoteur/mes-projets/${projectId}`);
+    setIsEditMode(true);
+  };
+
+  // ✅ CORRECTION 6: handleCancel annule l'édition
+  const handleCancel = () => {
+    setIsEditMode(false);
+    loadProject(projectId); // Recharger les données originales
   };
 
   const handleDelete = async () => {
@@ -80,10 +201,10 @@ const ProjectDetails = () => {
 
   const getStatusColor = (statut) => {
     const colors = {
+      a_venir: 'bg-purple-100 text-purple-800',
       en_cours: 'bg-blue-100 text-blue-800',
       termine: 'bg-green-100 text-green-800',
-      planifie: 'bg-yellow-100 text-yellow-800',
-      suspendu: 'bg-red-100 text-red-800'
+      vendu: 'bg-gray-100 text-gray-800'
     };
     return colors[statut] || 'bg-gray-100 text-gray-800';
   };
@@ -132,7 +253,6 @@ const ProjectDetails = () => {
   const tabs = [
     { id: 'details', label: '📋 Détails', count: null },
     { id: 'phases', label: '📊 Phases', count: project.phases?.length || 0 },
-    { id: 'avis', label: '⭐ Avis', count: project.avis?.length || 0 },
     { id: 'localisation', label: '📍 Localisation', count: null }
   ];
 
@@ -146,30 +266,78 @@ const ProjectDetails = () => {
         >
           ← Retour
         </button>
+        
+        {/* ✅ CORRECTION 7: Boutons conditionnels selon le mode */}
         <div className="flex gap-3">
-          <button 
-            onClick={handleEdit}
-            className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
-          >
-            ✏️ Modifier
-          </button>
-          <button 
-            onClick={handleDelete}
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
-          >
-            🗑️ Supprimer
-          </button>
+          {isEditMode ? (
+            <>
+              <button 
+                onClick={handleCancel}
+                className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+              >
+                ✕ Annuler
+              </button>
+              <button 
+                onClick={handleSave}
+                className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+              >
+                ✓ Enregistrer
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={handleEdit}
+                className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
+                ✏️ Modifier
+              </button>
+              <button 
+                onClick={handleDelete}
+                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
+                🗑️ Supprimer
+              </button>
+            </>
+          )}
         </div>
       </div>
 
       {/* Titre et statut */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{project.titre}</h1>
-            <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(project.statut)}`}>
-              {getStatutLabel(project.statut)}
-            </span>
+          <div className="flex-1">
+            {/* ✅ CORRECTION 8: Mode édition pour le titre */}
+            {isEditMode ? (
+              <input
+                type="text"
+                name="titre"
+                value={formData.titre}
+                onChange={handleChange}
+                className="text-3xl font-bold text-gray-800 mb-2 w-full border-2 border-blue-300 rounded px-2 py-1"
+              />
+            ) : (
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">{project.titre}</h1>
+            )}
+            
+            {/* ✅ CORRECTION 9: Mode édition pour le statut */}
+            {isEditMode ? (
+              <select
+                name="statut"
+                value={formData.statut}
+                onChange={handleChange}
+                className="px-3 py-1 rounded-full text-sm font-semibold border-2 border-blue-300"
+              >
+                <option value="a_venir">À venir</option>
+                <option value="en_cours">En cours</option>
+                <option value="termine">Terminé</option>
+                <option value="vendu">Vendu</option>
+              </select>
+            ) : (
+              <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(project.statut)}`}>
+                {getStatutLabel(project.statut)}
+              </span>
+            )}
           </div>
         </div>
 
@@ -234,80 +402,197 @@ const ProjectDetails = () => {
                 📷 Images du projet
               </h2>
               <ImageUploader
-                existingImages={project.images || []}
+                existingImages={[project.imagePrincipale, ...(project.galerie || [])].filter(Boolean)}
                 onImagesChange={handleImageUpload}
                 onImageDelete={handleImageDelete}
-                maxImages={20}
-                label="Images du projet"
+                maxImages={11}
+                label="Images du projet (1 principale + 10 galerie)"
               />
             </section>
 
             {/* Description */}
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">📝 Description</h2>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {project.description}
-              </p>
+              {/* ✅ CORRECTION 10: Mode édition pour la description */}
+              {isEditMode ? (
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows="6"
+                  className="w-full text-gray-700 leading-relaxed border-2 border-blue-300 rounded px-4 py-2"
+                />
+              ) : (
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                  {project.description}
+                </p>
+              )}
             </section>
 
             {/* Informations principales */}
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">ℹ️ Informations principales</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <InfoCard icon="💰" label="Prix" value={formatPrice(project.prix)} />
-                <InfoCard 
-                  icon="📐" 
-                  label="Surface totale" 
-                  value={formatSurface(project.caracteristiques?.surfaceTotale)} 
-                />
-                {project.caracteristiques?.surfaceHabitable && (
+              {/* ✅ CORRECTION 11: Formulaire d'édition des infos */}
+              {isEditMode ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Prix (DH)</label>
+                    <input
+                      type="number"
+                      name="prix"
+                      value={formData.prix}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Surface totale (m²)</label>
+                    <input
+                      type="number"
+                      name="caracteristiques.surfaceTotale"
+                      value={formData.caracteristiques.surfaceTotale}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de chambres</label>
+                    <input
+                      type="number"
+                      name="caracteristiques.nombreChambres"
+                      value={formData.caracteristiques.nombreChambres}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Salles de bain</label>
+                    <input
+                      type="number"
+                      name="caracteristiques.nombreSallesBain"
+                      value={formData.caracteristiques.nombreSallesBain}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <InfoCard icon="💰" label="Prix" value={formatPrice(project.prix)} />
                   <InfoCard 
-                    icon="🏠" 
-                    label="Surface habitable" 
-                    value={formatSurface(project.caracteristiques.surfaceHabitable)} 
+                    icon="📐" 
+                    label="Surface totale" 
+                    value={formatSurface(project.caracteristiques?.surfaceTotale)} 
                   />
-                )}
-                {project.caracteristiques?.nombreChambres && (
                   <InfoCard 
-                    icon="🛏️" 
-                    label="Chambres" 
-                    value={project.caracteristiques.nombreChambres} 
+                    icon="📅" 
+                    label="Date début" 
+                    value={formatDate(project.dateDebut)} 
                   />
-                )}
-                {project.caracteristiques?.nombreSallesBain && (
-                  <InfoCard 
-                    icon="🚿" 
-                    label="Salles de bain" 
-                    value={project.caracteristiques.nombreSallesBain} 
-                  />
-                )}
-                {project.caracteristiques?.nombreEtages && (
-                  <InfoCard 
-                    icon="🏢" 
-                    label="Étages" 
-                    value={project.caracteristiques.nombreEtages} 
-                  />
-                )}
-              </div>
+                  {project.dateFinPrevue && (
+                    <InfoCard 
+                      icon="📅" 
+                      label="Date fin prévue" 
+                      value={formatDate(project.dateFinPrevue)} 
+                    />
+                  )}
+                  {project.caracteristiques?.nombreChambres !== undefined && (
+                    <InfoCard 
+                      icon="🛏️" 
+                      label="Chambres" 
+                      value={project.caracteristiques.nombreChambres} 
+                    />
+                  )}
+                  {project.caracteristiques?.nombreSallesBain !== undefined && (
+                    <InfoCard 
+                      icon="🚿" 
+                      label="Salles de bain" 
+                      value={project.caracteristiques.nombreSallesBain} 
+                    />
+                  )}
+                </div>
+              )}
             </section>
 
-            {/* Équipements */}
-            {project.caracteristiques?.equipements && 
-             project.caracteristiques.equipements.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">✨ Équipements</h2>
-                <div className="flex flex-wrap gap-2">
-                  {project.caracteristiques.equipements.map((equipement, index) => (
-                    <span 
-                      key={index}
-                      className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      ✓ {equipement}
-                    </span>
+            {/* Équipements booléens */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">✨ Équipements</h2>
+              {/* ✅ CORRECTION 12: Checkboxes en mode édition */}
+              {isEditMode ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {['ascenseur', 'balcon', 'terrasse', 'garage', 'jardin', 'piscine', 'climatisation', 'chauffage', 'securite', 'gardien', 'meuble'].map(equip => (
+                    <label key={equip} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        name={`caracteristiques.${equip}`}
+                        checked={formData.caracteristiques[equip]}
+                        onChange={handleChange}
+                        className="w-4 h-4"
+                      />
+                      <span className="text-sm capitalize">{equip.replace('_', ' ')}</span>
+                    </label>
                   ))}
                 </div>
-              </section>
-            )}
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {project.caracteristiques?.ascenseur && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Ascenseur
+                    </span>
+                  )}
+                  {project.caracteristiques?.balcon && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Balcon
+                    </span>
+                  )}
+                  {project.caracteristiques?.terrasse && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Terrasse
+                    </span>
+                  )}
+                  {project.caracteristiques?.garage && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Garage
+                    </span>
+                  )}
+                  {project.caracteristiques?.jardin && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Jardin
+                    </span>
+                  )}
+                  {project.caracteristiques?.piscine && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Piscine
+                    </span>
+                  )}
+                  {project.caracteristiques?.climatisation && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Climatisation
+                    </span>
+                  )}
+                  {project.caracteristiques?.chauffage && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Chauffage
+                    </span>
+                  )}
+                  {project.caracteristiques?.securite && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Sécurité
+                    </span>
+                  )}
+                  {project.caracteristiques?.gardien && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Gardien
+                    </span>
+                  )}
+                  {project.caracteristiques?.meuble && (
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      ✓ Meublé
+                    </span>
+                  )}
+                </div>
+              )}
+            </section>
           </div>
         )}
 
@@ -320,27 +605,65 @@ const ProjectDetails = () => {
           />
         )}
 
-        {/* Onglet Avis */}
-        {activeTab === 'avis' && (
-          <ReviewsList
-            reviews={project.avis || []}
-            averageRating={project.noteGlobale || 0}
-          />
-        )}
-
         {/* Onglet Localisation */}
         {activeTab === 'localisation' && (
           <div className="space-y-6">
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">📍 Adresse</h2>
-              <div className="bg-gray-50 rounded-lg p-6 space-y-2">
-                <InfoRow label="Ville" value={project.localisation?.ville} />
-                <InfoRow label="Quartier" value={project.localisation?.quartier} />
-                <InfoRow label="Adresse" value={project.localisation?.adresse} />
-                {project.localisation?.codePostal && (
-                  <InfoRow label="Code postal" value={project.localisation.codePostal} />
-                )}
-              </div>
+              {/* ✅ CORRECTION 13: Mode édition pour la localisation */}
+              {isEditMode ? (
+                <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                    <input
+                      type="text"
+                      name="localisation.ville"
+                      value={formData.localisation.ville}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Quartier</label>
+                    <input
+                      type="text"
+                      name="localisation.quartier"
+                      value={formData.localisation.quartier}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                    <input
+                      type="text"
+                      name="localisation.adresse"
+                      value={formData.localisation.adresse}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Code postal</label>
+                    <input
+                      type="text"
+                      name="localisation.codePostal"
+                      value={formData.localisation.codePostal}
+                      onChange={handleChange}
+                      className="w-full border-2 border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-gray-50 rounded-lg p-6 space-y-2">
+                  <InfoRow label="Ville" value={project.localisation?.ville} />
+                  <InfoRow label="Quartier" value={project.localisation?.quartier} />
+                  <InfoRow label="Adresse" value={project.localisation?.adresse} />
+                  {project.localisation?.codePostal && (
+                    <InfoRow label="Code postal" value={project.localisation.codePostal} />
+                  )}
+                </div>
+              )}
             </section>
 
             <section>

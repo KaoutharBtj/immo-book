@@ -15,11 +15,11 @@ const ProjectCard = ({ project, onDelete }) => {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`/promoteur/mes-projets/mes-projets/${project._id}`);
+    navigate(`/promoteur/mes-projets/${project._id}`);
   };
 
   const handleEdit = () => {
-    navigate(`/promoteur/mes-projets/mes-projets/${project._id}`);
+    navigate(`/promoteur/mes-projets/${project._id}`);
   };
 
   const handleDelete = () => {

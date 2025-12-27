@@ -16,7 +16,7 @@ const ProjectList = () => {
     applyFilters,
     resetFilters,
     changePage
-  } = useProjects({ page: 1, limit: 12 });
+  } = useProjects({ page: 1, limit: 10 });
 
   const handleDelete = async (projectId) => {
     try {
@@ -27,7 +27,7 @@ const ProjectList = () => {
   };
 
   const handleCreateProject = () => {
-    navigate('/promoteur/projets/nouveau');
+    navigate('/promoteur/mes-projets');
   };
 
   return (

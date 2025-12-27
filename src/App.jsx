@@ -10,6 +10,8 @@ import NonAutorise  from './components/NonAutorise'
 import Dashboard from './components/promoteur/Dashboard';
 import PromoReservations from './components/promoteur/PromoReservations';
 import ProjectDetails from './components/promoteur/ProjectDetails';
+import ProjectList from  './components/promoteur/ProjectList';
+import CreateProject from './components/promoteur/CreateProject';
 
 import ClientProjects from './components/clients/ClientProjects';
 import ClientReservations from './components/clients/ClientReservations';
@@ -28,11 +30,12 @@ function App() {
             <Route path='verification-email' element = {<EmailVerification/>}/>
         </Route>
         
-        <Route path="promoteur/mes-projets" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails/> </ProtectedRoute>}/>
+        <Route path="/promoteur/mes-projets" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectList /> </ProtectedRoute>}/>
         <Route path="promoteur/reservations" element={<ProtectedRoute allowedRoles={'promoteur'}> <PromoReservations/> </ProtectedRoute>}/>
         <Route path="promoteur/tableau-de-bord" element={<ProtectedRoute allowedRoles={'promoteur'}> <Dashboard/> </ProtectedRoute>}/>
-        <Route path="/promoteur/mes-projets/:id" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails /> </ProtectedRoute>} 
-/>
+        <Route path="/promoteur/mes-projets/:id" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails /> </ProtectedRoute>}/>
+        <Route path="/promoteur/mes-projets/creer-projet" element={<ProtectedRoute allowedRoles={'promoteur'}> <CreateProject /> </ProtectedRoute>}/>
+
 
         <Route path="client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientProjects/> </ProtectedRoute>}/>
         <Route path="client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientReservations/> </ProtectedRoute>}/>

@@ -10,7 +10,11 @@ const projectService = {
    */
   createProject: async (projectData) => {
     try {
-      const response = await api.post('/projets/mes-projets', projectData);
+      const response = await api.post('/projects', projectData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -29,7 +33,7 @@ const projectService = {
       if (filters.page) params.append('page', filters.page);
       if (filters.limit) params.append('limit', filters.limit);
 
-      const response = await api.get(`/projets/?${params.toString()}`);
+      const response = await api.get(`/projets/mes-projets?${params.toString()}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
