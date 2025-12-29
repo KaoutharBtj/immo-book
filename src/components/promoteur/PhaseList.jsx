@@ -79,6 +79,10 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
     }
   };
 
+  const handleCreateProject = () => {
+  navigate('/promoteur/creer-projet'); // ✅ Route vers le formulaire
+};
+
   return (
     <div className="space-y-6">
       {/* En-tête */}

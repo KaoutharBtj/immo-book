@@ -16,7 +16,7 @@ const CreateProject = () => {
     prix: '',
     dateDebut: '',
     dateFinPrevue: '',
-    imagePrincipale: null,
+    imagePrincipale: null, 
     localisation: {
       adresse: '',
       ville: '',
@@ -66,7 +66,7 @@ const CreateProject = () => {
     if (type === 'file') {
       setFormData(prev => ({
         ...prev,
-        [name]: files[0]
+        [name]: files[0] 
       }));
     } else if (name.includes('.')) {
       const keys = name.split('.');
@@ -105,48 +105,106 @@ const CreateProject = () => {
     setLoading(true);
     setError('');
 
+    console.log('=== FRONTEND DEBUG ===');
+    console.log('1. Fichier sélectionné:', formData.imagePrincipale);
+    console.log('2. Est un File?', formData.imagePrincipale instanceof File);
+    console.log('3. Nom du fichier:', formData.imagePrincipale?.name);
+
+
     try {
+      // Validation
+      if (!formData.imagePrincipale) {
+        setError('Veuillez sélectionner une image principale');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.localisation.adresse || !formData.localisation.ville) {
+        setError('L\'adresse et la ville sont requises');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.localisation.coordinates.latitude || !formData.localisation.coordinates.longitude) {
+        setError('Les coordonnées GPS sont requises');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.caracteristiques.surfaceTotale) {
+        setError('La surface totale est requise');
+        setLoading(false);
+        return;
+      }
+
       // Créer FormData pour envoyer l'image
       const data = new FormData();
       
-      // Ajouter tous les champs au FormData
+      // Ajouter l'image
+      data.append('imagePrincipale', formData.imagePrincipale);
+      
+      // Ajouter les champs de base
       data.append('titre', formData.titre);
       data.append('description', formData.description);
       data.append('typeBien', formData.typeBien);
       data.append('statut', formData.statut);
       data.append('prix', formData.prix);
       data.append('dateDebut', formData.dateDebut);
+      
       if (formData.dateFinPrevue) {
         data.append('dateFinPrevue', formData.dateFinPrevue);
       }
+
+      // Ajouter les champs de localisation individuellement
+      data.append('adresse', formData.localisation.adresse);
+      data.append('ville', formData.localisation.ville);
+      data.append('latitude', formData.localisation.coordinates.latitude);
+      data.append('longitude', formData.localisation.coordinates.longitude);
       
-      // Image principale
-      if (formData.imagePrincipale) {
-        data.append('imagePrincipale', formData.imagePrincipale);
+      if (formData.localisation.codePostal) {
+        data.append('codePostal', formData.localisation.codePostal);
+      }
+      if (formData.localisation.quartier) {
+        data.append('quartier', formData.localisation.quartier);
       }
 
-      // Localisation
-      data.append('localisation[adresse]', formData.localisation.adresse);
-      data.append('localisation[ville]', formData.localisation.ville);
-      data.append('localisation[codePostal]', formData.localisation.codePostal);
-      data.append('localisation[quartier]', formData.localisation.quartier);
-      data.append('localisation[coordinates][latitude]', formData.localisation.coordinates.latitude);
-      data.append('localisation[coordinates][longitude]', formData.localisation.coordinates.longitude);
+      // Ajouter la surface totale
+      data.append('surfaceTotale', formData.caracteristiques.surfaceTotale);
 
-      // Caractéristiques
-      Object.keys(formData.caracteristiques).forEach(key => {
-        data.append(`caracteristiques[${key}]`, formData.caracteristiques[key]);
-      });
+      // Ajouter les autres caractéristiques
+      data.append('nombreChambres', formData.caracteristiques.nombreChambres);
+      data.append('nombreSallesBain', formData.caracteristiques.nombreSallesBain);
+      data.append('nombreSallesEau', formData.caracteristiques.nombreSallesEau);
+      data.append('etage', formData.caracteristiques.etage);
+      data.append('ascenseur', formData.caracteristiques.ascenseur);
+      data.append('balcon', formData.caracteristiques.balcon);
+      data.append('terrasse', formData.caracteristiques.terrasse);
+      data.append('garage', formData.caracteristiques.garage);
+      data.append('jardin', formData.caracteristiques.jardin);
+      data.append('piscine', formData.caracteristiques.piscine);
+      data.append('climatisation', formData.caracteristiques.climatisation);
+      data.append('chauffage', formData.caracteristiques.chauffage);
+      data.append('cuisine', formData.caracteristiques.cuisine);
+      data.append('meuble', formData.caracteristiques.meuble);
+      data.append('securite', formData.caracteristiques.securite);
+      data.append('gardien', formData.caracteristiques.gardien);
+
+      console.log('Données envoyées:');
+      for (let pair of data.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
 
       const response = await projectService.createProject(data);
       
       if (response.success) {
-        alert('✅ Projet créé avec succès !');
+        alert('Projet créé avec succès !');
         navigate('/promoteur/mes-projets');
+      } else {
+        setError(response.message || 'Erreur lors de la création du projet');
       }
     } catch (err) {
       console.error('Erreur création projet:', err);
-      setError(err.message || 'Erreur lors de la création du projet');
+      setError(err.response?.data?.message || err.message || 'Erreur lors de la création du projet');
     } finally {
       setLoading(false);
     }
@@ -156,8 +214,9 @@ const CreateProject = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* En-tête */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">➕ Créer un nouveau projet</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Créer un nouveau projet</h1>
         <button 
+          type="button"
           onClick={() => navigate('/promoteur/mes-projets')}
           className="text-blue-600 hover:text-blue-800 font-medium"
         >
@@ -320,6 +379,11 @@ const CreateProject = () => {
                 accept="image/*"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
+              {formData.imagePrincipale && (
+                <p className="text-sm text-gray-600 mt-1">
+                  Fichier sélectionné: {formData.imagePrincipale.name}
+                </p>
+              )}
             </div>
           </div>
         </section>

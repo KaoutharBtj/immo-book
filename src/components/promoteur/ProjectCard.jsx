@@ -1,6 +1,7 @@
 // components/promoteur/ProjectCard.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import getImageUrl from '../../services/api';
 import { 
   formatPrice, 
   formatSurface, 
@@ -13,7 +14,7 @@ import {
 
 const ProjectCard = ({ project, onDelete }) => {
   const navigate = useNavigate();
-
+  const API_URL = 'http://localhost:3000'
   const handleViewDetails = () => {
     navigate(`/promoteur/mes-projets/${project._id}`);
   };
@@ -42,14 +43,10 @@ const ProjectCard = ({ project, onDelete }) => {
     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
       {/* Image principale */}
       <div className="relative h-48 overflow-hidden">
-        {project.images && project.images.length > 0 ? (
-          <img 
-            src={project.images[0]} 
-            alt={project.titre}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.src = '/placeholder-project.jpg';
-            }}
+        {project.imagePrincipale ? (
+          <img
+            src={`${API_URL}/${project.imagePrincipale}`}
+            alt="Project"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">

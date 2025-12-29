@@ -1,19 +1,11 @@
-// services/projectService.js
 import api from './api';
 
-/**
- * Service de gestion des projets
- */
 const projectService = {
-  /**
-   * Créer un nouveau projet
-   */
-  createProject: async (projectData) => {
+
+  createProject: async (fromData) => {
     try {
-      const response = await api.post('/projects', projectData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await api.post('/projets/mes-projets',fromData,{
+        headers: {'content-type': 'multupart/form-data'}
       });
       return response.data;
     } catch (error) {
@@ -21,9 +13,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Récupérer tous mes projets avec filtres et pagination
-   */
   getMyProjects: async (filters = {}) => {
     try {
       const params = new URLSearchParams();
@@ -40,9 +29,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Récupérer un projet par ID
-   */
   getProjectById: async (projectId) => {
     try {
       const response = await api.get(`/projets/mes-projets/${projectId}`);
@@ -54,9 +40,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Mettre à jour un projet
-   */
   updateProject: async (projectId, projectData) => {
     try {
       const response = await api.put(`/projets/mes-projets/${projectId}`, projectData);
@@ -66,9 +49,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Supprimer un projet
-   */
   deleteProject: async (projectId) => {
     try {
       const response = await api.delete(`/projets/mes-projets/${projectId}`);
@@ -78,9 +58,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Rechercher des projets (pour les clients)
-   */
   searchProjects: async (filters = {}) => {
     try {
       const params = new URLSearchParams();
@@ -103,9 +80,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Upload des images du projet
-   */
   uploadProjectImages: async (projectId, images) => {
     try {
       const formData = new FormData();
@@ -124,9 +98,6 @@ const projectService = {
     }
   },
 
-  /**
-   * Supprimer une image du projet
-   */
   deleteProjectImage: async (projectId, imageUrl) => {
     try {
       const response = await api.delete(`/projets/mes-projets/${projectId}`, {

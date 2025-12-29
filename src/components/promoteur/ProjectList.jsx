@@ -39,7 +39,7 @@ const ProjectList = () => {
             🏗️ Mes Projets
           </h1>
           <button 
-            onClick={handleCreateProject}
+            onClick={() => navigate('/promoteur/mes-projets/creer-projet')}
             className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
           >
             ➕ Nouveau Projet
