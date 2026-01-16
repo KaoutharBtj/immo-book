@@ -218,7 +218,7 @@ const CreateProject = () => {
         <button 
           type="button"
           onClick={() => navigate('/promoteur/mes-projets')}
-          className="text-blue-600 hover:text-blue-800 font-medium"
+          className="text-[#1d4370] hover:text-[#27578F]  font-medium"
         >
           ← Retour
         </button>
@@ -236,7 +236,7 @@ const CreateProject = () => {
         
         {/* Informations de base */}
         <section>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">📋 Informations de base</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4"> Informations de base</h2>
           
           <div className="space-y-4">
             {/* Titre */}
@@ -589,9 +589,9 @@ const CreateProject = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-[#1d4370] hover:bg-[#27578F]    text-white py-3 px-6 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Création en cours...' : '✓ Créer le projet'}
+            {loading ? 'Création en cours...' : 'Créer le projet'}
           </button>
         </div>
       </form>

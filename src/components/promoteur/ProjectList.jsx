@@ -1,9 +1,9 @@
-// pages/promoteur/ProjectList.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProjects } from '../../hooks/useProjects';
 import ProjectCard from '../../components/promoteur/ProjectCard';
 import ProjectFilters from '../../components/promoteur/ProjectFilters';
+import { Folder } from 'lucide-react';
 
 const ProjectList = () => {
   const navigate = useNavigate();
@@ -36,13 +36,13 @@ const ProjectList = () => {
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-            🏗️ Mes Projets
+            Mes Projets
           </h1>
           <button 
             onClick={() => navigate('/promoteur/mes-projets/creer-projet')}
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto bg-[#1d4370]  hover:bg-[#27578F]  text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
           >
-            ➕ Nouveau Projet
+            Nouveau Projet
           </button>
         </div>
         
@@ -50,8 +50,7 @@ const ProjectList = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">📊</span>
-              <div>
+              <div >
                 <p className="text-2xl font-bold text-gray-800">{pagination.total}</p>
                 <p className="text-sm text-gray-600">Total projets</p>
               </div>
@@ -60,9 +59,8 @@ const ProjectList = () => {
 
           <div className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">✅</span>
               <div>
-                <p className="text-2xl font-bold text-green-600">
+                <p className="text-2xl font-bold text-[#a18651]">
                   {projects.filter(p => p.statut === 'termine').length}
                 </p>
                 <p className="text-sm text-gray-600">Terminés</p>
@@ -72,9 +70,8 @@ const ProjectList = () => {
 
           <div className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">🔄</span>
               <div>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-2xl font-bold text-black">
                   {projects.filter(p => p.statut === 'en_cours').length}
                 </p>
                 <p className="text-sm text-gray-600">En cours</p>
@@ -84,12 +81,11 @@ const ProjectList = () => {
 
           <div className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">📅</span>
               <div>
-                <p className="text-2xl font-bold text-yellow-600">
-                  {projects.filter(p => p.statut === 'planifie').length}
+                <p className="text-2xl font-bold text-[#a18651]">
+                  {projects.filter(p => p.statut === 'Vendu').length}
                 </p>
-                <p className="text-sm text-gray-600">Planifiés</p>
+                <p className="text-sm text-gray-600">Vendu</p>
               </div>
             </div>
           </div>
@@ -105,7 +101,7 @@ const ProjectList = () => {
       {/* Message d'erreur */}
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-          <p className="font-medium">⚠️ {error}</p>
+          <p className="font-medium">{error}</p>
         </div>
       )}
 
@@ -159,8 +155,9 @@ const ProjectList = () => {
 
       {/* Aucun projet */}
       {!loading && projects.length === 0 && (
+        
         <div className="bg-white rounded-lg shadow-md p-12 text-center">
-          <div className="text-6xl mb-4 opacity-50">📁</div>
+          <div className=" mb-4 flex justify-center "><Folder size={90} color="black" strokeWidth={1}/></div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
             Aucun projet trouvé
           </h2>
@@ -168,10 +165,10 @@ const ProjectList = () => {
             Commencez par créer votre premier projet immobilier
           </p>
           <button 
-            onClick={handleCreateProject}
-            className="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center gap-2"
+            onClick = {() => navigate('/promoteur/mes-projets/creer-projet')}
+            className="bg-[#1d4370] hover:bg-[#27578F]  text-white py-3 px-8 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center gap-2"
           >
-            ➕ Créer mon premier projet
+            Créer mon premier projet
           </button>
         </div>
       )}

@@ -58,12 +58,12 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
       {/* En-tête */}
       <div className="flex items-center justify-between p-4 border-b">
         <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-          🔍 Filtrer les projets
+          Filtrer les projets
         </h3>
         <button 
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2"
+          className="text-sm text-[#1d4370] hover:text-[#27578F]  font-medium flex items-center gap-2"
         >
           {isExpanded ? '▲ Masquer' : '▼ Afficher les filtres'}
         </button>
@@ -254,7 +254,7 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
           <div className="flex gap-3 mt-6">
             <button 
               type="submit" 
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium transition-colors duration-200"
+              className=" bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-6 rounded-lg font-medium transition-colors duration-200"
             >
               ✓ Appliquer les filtres
             </button>

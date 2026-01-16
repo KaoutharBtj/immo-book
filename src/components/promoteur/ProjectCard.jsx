@@ -11,6 +11,7 @@ import {
   getTypeBienLabel,
   truncateText 
 } from '../../utils/formatters';
+import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 
 const ProjectCard = ({ project, onDelete }) => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const ProjectCard = ({ project, onDelete }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
-            📷 Aucune image
+            Aucune image
           </div>
         )}
         <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(project.statut)}`}>
@@ -78,24 +79,24 @@ const ProjectCard = ({ project, onDelete }) => {
         {/* Informations */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-gray-700">
-            <span className="mr-2">📍</span>
+            <span className="mr-2"><MapPin size={18} color="black"/></span>
             <span>{project.localisation?.ville}</span>
           </div>
           <div className="flex items-center text-sm text-gray-700">
-            <span className="mr-2">💰</span>
-            <span className="font-semibold text-green-600">
+            <span className="mr-2"><BadgeDollarSign size={18} /></span>
+            <span className="font-semibold text-[#a18651]">
               {formatPrice(project.prix)}
             </span>
           </div>
           <div className="flex items-center gap-4 text-sm text-gray-700">
             <div className="flex items-center">
-              <span className="mr-1">📐</span>
+              <span className="mr-1"><Square size={18} /></span>
               <span>{formatSurface(project.caracteristiques?.surfaceTotale)}</span>
             </div>
             {project.caracteristiques?.nombreChambres && (
               <div className="flex items-center">
-                <span className="mr-1">🛏️</span>
-                <span>{project.caracteristiques.nombreChambres} ch</span>
+                <span className="mr-1"><Bed size={16}/></span>
+                <span>{project.caracteristiques.nombreChambres}</span>
               </div>
             )}
           </div>
@@ -104,11 +105,11 @@ const ProjectCard = ({ project, onDelete }) => {
         {/* Statistiques */}
         <div className="flex items-center justify-between text-xs text-gray-500 mb-4 pt-4 border-t">
           <div className="flex items-center gap-1">
-            <span>👁️</span>
+            <span><Eye size={16}/></span>
             <span>{project.vues || 0} vues</span>
           </div>
           <div className="flex items-center gap-1">
-            <span>📅</span>
+            <span><Calendar size={16}/></span>
             <span>{formatDate(project.createdAt)}</span>
           </div>
           {project.phases && project.phases.length > 0 && (
@@ -123,22 +124,22 @@ const ProjectCard = ({ project, onDelete }) => {
         <div className="flex gap-2">
           <button 
             onClick={handleViewDetails}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
+            className="flex-1 bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
           >
-            👁️ Voir
+            Voir
           </button>
           <button 
             onClick={handleEdit}
-            className="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
+            className="flex-1 bg-[#a18651] hover:bg-[#B89C64] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
           >
-            ✏️ Modifier
+            Modifier
           </button>
           <button 
             onClick={handleDelete}
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+            className="bg-gray-200 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
             title="Supprimer"
           >
-            🗑️
+            <Trash size={16} color="black"/>
           </button>
         </div>
       </div>
