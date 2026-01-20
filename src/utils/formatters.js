@@ -1,8 +1,4 @@
-// utils/formatters.js
 
-/**
- * Formate un prix en dirham marocain
- */
 export const formatPrice = (price) => {
   if (!price) return '0 DH';
   return new Intl.NumberFormat('fr-MA', {
@@ -13,17 +9,13 @@ export const formatPrice = (price) => {
   }).format(price).replace('MAD', 'DH');
 };
 
-/**
- * Formate une surface en m²
- */
+
 export const formatSurface = (surface) => {
   if (!surface) return '0 m²';
   return `${surface} m²`;
 };
 
-/**
- * Formate une date au format français
- */
+
 export const formatDate = (date) => {
   if (!date) return '';
   return new Date(date).toLocaleDateString('fr-FR', {
@@ -33,9 +25,7 @@ export const formatDate = (date) => {
   });
 };
 
-/**
- * Formate une date complète avec heure
- */
+
 export const formatDateTime = (date) => {
   if (!date) return '';
   return new Date(date).toLocaleDateString('fr-FR', {
@@ -47,9 +37,7 @@ export const formatDateTime = (date) => {
   });
 };
 
-/**
- * Obtient le label d'un statut de projet
- */
+
 export const getStatutLabel = (statut) => {
   const labels = {
     en_cours: 'En cours',
@@ -62,9 +50,7 @@ export const getStatutLabel = (statut) => {
   return labels[statut] || statut;
 };
 
-/**
- * Obtient la classe CSS d'un statut
- */
+
 export const getStatutClass = (statut) => {
   const classes = {
     en_cours: 'status-active',
@@ -77,9 +63,7 @@ export const getStatutClass = (statut) => {
   return classes[statut] || 'status-default';
 };
 
-/**
- * Obtient le label d'un type de bien
- */
+
 export const getTypeBienLabel = (type) => {
   const labels = {
     appartement: 'Appartement',
@@ -91,17 +75,13 @@ export const getTypeBienLabel = (type) => {
   return labels[type] || type;
 };
 
-/**
- * Calcule le pourcentage de progression
- */
+
 export const calculateProgress = (current, total) => {
   if (!total || total === 0) return 0;
   return Math.round((current / total) * 100);
 };
 
-/**
- * Tronque un texte
- */
+
 export const truncateText = (text, maxLength = 100) => {
   if (!text) return '';
   if (text.length <= maxLength) return text;

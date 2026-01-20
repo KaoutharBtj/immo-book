@@ -1,7 +1,7 @@
 // components/promoteur/ImageUploader.jsx
 import React, { useState } from 'react';
 import { validateImages } from '../../utils/validators';
-
+import { Camera } from 'lucide-react';
 const ImageUploader = ({ 
   existingImages = [], 
   onImagesChange, 
@@ -66,7 +66,7 @@ const ImageUploader = ({
       
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 rounded">
-          ⚠️ {error}
+          {error}
         </div>
       )}
 
@@ -140,7 +140,7 @@ const ImageUploader = ({
             htmlFor="image-upload" 
             className="flex flex-col items-center justify-center py-12 cursor-pointer"
           >
-            <span className="text-5xl mb-3">📷</span>
+            <span className="text-5xl mb-3"><Camera size={35}/></span>
             <span className="text-gray-700 font-medium mb-1">
               Cliquez pour ajouter des images
             </span>
@@ -155,7 +155,7 @@ const ImageUploader = ({
 
       {!canAddMore && (
         <div className="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
-          ⚠️ Limite de {maxImages} images atteinte
+          Limite de {maxImages} images atteinte
         </div>
       )}
     </div>

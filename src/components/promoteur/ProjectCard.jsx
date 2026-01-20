@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import getImageUrl from '../../services/api';
+import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 import { 
   formatPrice, 
   formatSurface, 
@@ -11,7 +12,6 @@ import {
   getTypeBienLabel,
   truncateText 
 } from '../../utils/formatters';
-import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 
 const ProjectCard = ({ project, onDelete }) => {
   const navigate = useNavigate();

@@ -17,6 +17,7 @@ const CreateProject = () => {
     dateDebut: '',
     dateFinPrevue: '',
     imagePrincipale: null, 
+    galerie:null,
     localisation: {
       adresse: '',
       ville: '',
@@ -142,7 +143,7 @@ const CreateProject = () => {
       
       // Ajouter l'image
       data.append('imagePrincipale', formData.imagePrincipale);
-      
+      data.append('galerie',formData.galrie);
       // Ajouter les champs de base
       data.append('titre', formData.titre);
       data.append('description', formData.description);
@@ -390,7 +391,7 @@ const CreateProject = () => {
 
         {/* Localisation */}
         <section>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">📍 Localisation</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Localisation</h2>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -494,7 +495,7 @@ const CreateProject = () => {
 
         {/* Caractéristiques */}
         <section>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">📐 Caractéristiques</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Caractéristiques</h2>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
