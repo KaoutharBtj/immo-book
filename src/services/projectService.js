@@ -107,6 +107,36 @@ const projectService = {
     } catch (error) {
       throw error.response?.data || error;
     }
+  },
+
+
+  uploadProjectImagesGalery: async (projectId, images) => {
+    try {
+      const formData = new FormData();
+      images.forEach((image) => {
+        formData.append('images', image);
+      });
+
+      const response = await api.post(`/projets/mes-projets/${projectId}/galerie`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  deleteProjectImageGalery: async (projectId, imageUrl) => {
+    try {
+      const response = await api.delete(`/projets/mes-projets/${projectId}/galerie`, {
+        data: { imageUrl }
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
   }
 };
 

@@ -6,7 +6,7 @@ import Login from './components/authentication/Login';
 import About from './components/about/About';
 import EmailVerification from './components/authentication/EmailVerification';
 import ProtectedRoute from './components/ProtectedRoute';
-import NonAutorise  from './components/NonAutorise' 
+import NonAutorise  from './components/NonAutorise';
 import Dashboard from './components/promoteur/Dashboard';
 import PromoReservations from './components/promoteur/PromoReservations';
 import ProjectDetails from './components/promoteur/ProjectDetails';
@@ -18,7 +18,6 @@ import ClientReservations from './components/clients/ClientReservations';
 import FavorisProject from './components/clients/FavorisProject';
 
 
-
 function App() {
 
   return (
@@ -26,7 +25,7 @@ function App() {
     <Routes>
       <Route path='/' element={<SharedLayout/>}>
 
-        <Route element = {<ProtectedRoute/>}>
+        <Route lement={<ProtectedRoute allowedRoles={['promoteur','client_physique', 'client_entreprise']  }> <ProjectList /> </ProtectedRoute>}>
             <Route path='verification-email' element = {<EmailVerification/>}/>
         </Route>
         

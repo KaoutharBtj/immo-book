@@ -163,28 +163,54 @@ const ProjectDetails = () => {
 
   const handleImageUpload = async (images) => {
     try {
-      await projectService.uploadProjectImages(projectId, images);
-      loadProject(projectId);
+      if (!images || images.length === 0) {
+        alert('Aucune image sélectionnée');
+        return; 
+      }
+
+      setLoading(true);
+      setError('');
+
+      await projectService.uploadProjectImagesGalery(projectId, images);
+      await loadProject(projectId);
+      alert(`${images.length} image(s) ajoutée(s) avec succès !`);
+
     } catch (err) {
+
       setError(err.message || 'Erreur lors de l\'upload des images');
+
+    } finally {
+
+      setLoading(false);
+
     }
   };
 
   const handleImageDelete = async (imageUrl) => {
     try {
-      await projectService.deleteProjectImage(projectId, imageUrl);
+
+      setLoading(true);
+      setError('');
+
+      await projectService.deleteProjectImageGalery(projectId, imageUrl);
       loadProject(projectId);
+      alert('Image supprimée avec succès !');
+
     } catch (err) {
+
       setError(err.message || 'Erreur lors de la suppression de l\'image');
+
+    }finally{
+
+      setLoading(false);
+
     }
   };
 
-  // ✅ CORRECTION 5: handleEdit active le mode édition
   const handleEdit = () => {
     setIsEditMode(true);
   };
 
-  // ✅ CORRECTION 6: handleCancel annule l'édition
   const handleCancel = () => {
     setIsEditMode(false);
     loadProject(projectId); // Recharger les données originales
@@ -396,18 +422,51 @@ const ProjectDetails = () => {
       <div className="bg-white rounded-b-lg shadow-md p-6">
         {/* Onglet Détails */}
         {activeTab === 'details' && (
+
           <div className="space-y-8">
             {/* Images */}
             <section>
               <h2 className="text-2xl font-bold text-black mb-4 flex items-center gap-2">
+                <Camera size={24} className="text-[#1d4370]" />
                 Images du projet
               </h2>
-              <ImageUploader
-                existingImages={[project.imagePrincipale, ...(project.galerie || [])].filter(Boolean)}
-                onImagesChange={handleImageUpload}
-                onImageDelete={handleImageDelete}
-                maxImages={11}
-              />
+              
+              {/* ✅ Image Principale (Non modifiable ici) */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                  Image Principale
+                </h3>
+                {project.imagePrincipale ? (
+                  <div className="relative inline-block">
+                    <img 
+                      src={`http://localhost:3000${project.imagePrincipale}`}
+                      alt="Image principale"
+                      className="w-full max-w-md h-64 object-cover rounded-lg shadow-lg"
+                    />
+                    <span className="absolute top-2 left-2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      Image Principale
+                    </span>
+                  </div>
+                ) : (
+                  <div className="w-full max-w-md h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span className="text-gray-500">Aucune image principale</span>
+                  </div>
+                )}
+              </div>
+
+              {/* ✅ Galerie (Modifiable) */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                  Galerie ({project.galerie?.length || 0}/10 images)
+                </h3>
+                <ImageUploader
+                  existingImages={project.galerie || []} // ✅ Seulement la galerie
+                  onImagesChange={handleImageUpload}
+                  onImageDelete={handleImageDelete}
+                  maxImages={10} // ✅ Max 10 pour la galerie
+                  label=""
+                />
+              </div>
             </section>
 
             {/* Description */}
