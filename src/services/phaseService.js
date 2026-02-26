@@ -10,7 +10,7 @@ const phaseService = {
    */
   addPhase: async (projectId, phaseData) => {
     try {
-      const response = await api.post(`/projets/mes-prjets/${projectId}/phases`, phaseData);
+      const response = await api.post(`/projets/mes-projets/${projectId}/phases`, phaseData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
