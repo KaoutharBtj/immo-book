@@ -9,11 +9,11 @@ import ProtectedRoute from './components/ProtectedRoute';
 import NonAutorise  from './components/NonAutorise';
 import Dashboard from './components/promoteur/Dashboard';
 import PromoReservations from './components/promoteur/PromoReservations';
-import ProjectDetails from './components/promoteur/ProjectDetails';
-import ProjectList from  './components/promoteur/ProjectList';
-import CreateProject from './components/promoteur/CreateProject';
+import ProjectDetails from './components/promoteur/projects/ProjectDetails';
+import ProjectList from  './components/promoteur/projects/ProjectList';
+import CreateProject from './components/promoteur/projects/CreateProject';
 
-import ClientProjects from './components/clients/ClientProjects';
+import ClientProjects from './components/clients/projects/ClientProjects';
 import ClientReservations from './components/clients/ClientReservations';
 import FavorisProject from './components/clients/FavorisProject';
 

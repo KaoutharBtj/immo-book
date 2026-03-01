@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import PhaseForm from './PhaseForm';
 import ImageUploader from './ImageUploader';
-import { formatDate, getStatutLabel } from '../../utils/formatters';
+import { formatDate, getStatutLabel } from '../../../utils/formatters';
 
 const PhaseCard = ({ 
   phase, 

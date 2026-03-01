@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { validatePhase } from '../../utils/validators';
-import { STATUT_PHASE } from '../../utils/constants';
+import { validatePhase } from '../../../utils/validators';
+import { STATUT_PHASE } from '../../../utils/constants';
 
 const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) => {
   const [formData, setFormData] = useState({

@@ -1,7 +1,7 @@
 // components/promoteur/ProjectCard.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import getImageUrl from '../../services/api';
+import getImageUrl from '../../../services/api';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 import { 
   formatPrice, 
@@ -11,7 +11,7 @@ import {
   getStatutClass,
   getTypeBienLabel,
   truncateText 
-} from '../../utils/formatters';
+} from '../../../utils/formatters';
 
 const ProjectCard = ({ project, onDelete }) => {
   const navigate = useNavigate();

@@ -1,13 +1,10 @@
-// components/promoteur/ImageUploader.jsx
 import React, { useState } from 'react';
-import { validateImages } from '../../utils/validators';
+import { validateImages } from '../../../utils/validators';
 import { Camera } from 'lucide-react';
-
-// ✅ Fonction locale pour construire l'URL
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '/placeholder-project.jpg';
   if (imagePath.startsWith('http')) return imagePath;
-  return `http://localhost:3000${imagePath}`;
+  return `http://localhost:3000/${imagePath}`;
 };
 
 const ImageUploader = ({ 
@@ -24,7 +21,7 @@ const ImageUploader = ({
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     
-    console.log('📁 Fichiers sélectionnés:', files.length);
+    console.log('Fichiers sélectionnés:', files.length);
     
     const validation = validateImages(files, maxImages - existingImages.length);
     
@@ -35,7 +32,6 @@ const ImageUploader = ({
 
     setError('');
 
-    // Créer les aperçus
     const previews = files.map(file => ({
       file,
       preview: URL.createObjectURL(file),
@@ -44,7 +40,7 @@ const ImageUploader = ({
     }));
 
     setPreviewImages(prev => [...prev, ...previews]);
-    console.log('✅ Aperçus créés:', previews.length);
+    console.log('Aperçus créés:', previews.length);
   };
 
   const handleRemovePreview = (index) => {
@@ -56,9 +52,10 @@ const ImageUploader = ({
     });
   };
 
-  // ✅ FONCTION UPLOAD
   const handleUpload = async () => {
     if (previewImages.length === 0) {
+      console.log('preview images:', previewImages);
+      console.log('files to upload:', previewImages.map(p => p.file));
       setError('Aucune image à uploader');
       return;
     }
@@ -67,11 +64,6 @@ const ImageUploader = ({
       setUploading(true);
       setError('');
       
-      console.log('==========================================');
-      console.log('📤 DÉBUT UPLOAD');
-      console.log('Nombre d\'images:', previewImages.length);
-      
-      // Extraire les fichiers
       const files = previewImages.map(p => p.file);
       
       console.log('Fichiers à uploader:', files.map(f => ({
@@ -80,27 +72,24 @@ const ImageUploader = ({
         type: f.type
       })));
       
-      // ✅ Appeler la fonction du parent (ProjectDetails.handleImageUpload)
       await onImagesChange(files);
       
-      console.log('✅ Upload terminé avec succès');
+      console.log('Upload terminé avec succès');
       
-      // Nettoyer les aperçus après upload réussi
       previewImages.forEach(p => URL.revokeObjectURL(p.preview));
       setPreviewImages([]);
       
     } catch (err) {
-      console.error('❌ Erreur dans ImageUploader.handleUpload:', err);
+      console.error('Erreur dans ImageUploader.handleUpload:', err);
       setError(err.message || 'Erreur lors de l\'upload');
     } finally {
       setUploading(false);
-      console.log('==========================================');
     }
   };
 
   const handleDeleteExisting = (imageUrl) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
-      console.log('🗑️ Demande suppression:', imageUrl);
+      console.log('Demande suppression:', imageUrl);
       onImageDelete(imageUrl);
     }
   };
@@ -120,7 +109,6 @@ const ImageUploader = ({
         </div>
       )}
 
-      {/* Images existantes */}
       {existingImages.length > 0 && (
         <div>
           <h4 className="text-sm font-medium text-gray-700 mb-3">
@@ -152,7 +140,6 @@ const ImageUploader = ({
         </div>
       )}
 
-      {/* Aperçus des nouvelles images */}
       {previewImages.length > 0 && (
         <div>
           <h4 className="text-sm font-medium text-gray-700 mb-3">
@@ -179,7 +166,6 @@ const ImageUploader = ({
             ))}
           </div>
           
-          {/* ✅ BOUTON UPLOAD */}
           <button
             type="button"
             onClick={handleUpload}
@@ -193,14 +179,13 @@ const ImageUploader = ({
               </>
             ) : (
               <>
-                📤 Uploader {previewImages.length} image{previewImages.length > 1 ? 's' : ''}
+                Uploader {previewImages.length} image{previewImages.length > 1 ? 's' : ''}
               </>
             )}
           </button>
         </div>
       )}
 
-      {/* Bouton d'ajout */}
       {canAddMore && (
         <div className="border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 transition-colors">
           <input

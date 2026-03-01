@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import projectService from '../../services/projectService';
-import PhaseList from '../../components/promoteur/PhaseList';
-import ProjectMap from '../../components/promoteur/ProjectMap';
-import ReviewsList from '../../components/promoteur/ReviewsList';
-import ImageUploader from '../../components/promoteur/ImageUploader';
-import { MapPin, Home, Square, DollarSign, Eye, Trash, Calendar, Bed, ShowerHead, Camera } from "lucide-react";
+import projectService from '../../../services/projectService';
+import PhaseList from './PhaseList';
+import ProjectMap from './ProjectMap';
+import ReviewsList from '../ReviewsList';
+import ImageUploader from './ImageUploader';
+import { MapPin, Home, Square,  DollarSign, Eye, Trash, Calendar, Bed, ShowerHead, Camera } from "lucide-react";
 import { 
   formatPrice, 
   formatSurface, 
   formatDate, 
   getStatutLabel,
   getTypeBienLabel 
-} from '../../utils/formatters';
+} from '../../../utils/formatters';
+const API_URL = 'http://localhost:3000';
 
 const ProjectDetails = () => {
   const { id: projectId } = useParams();
@@ -71,11 +72,8 @@ const ProjectDetails = () => {
     setError('');
     try {
       const data = await projectService.getProjectById(id);
-      console.log('Données reçues du backend:', data);
-      
       setProject(data.project); 
 
-      // ✅ CORRECTION 2: Utiliser data.project au lieu de data
       setFormData({
         titre: data.project.titre || '',
         description: data.project.description || '',
@@ -122,12 +120,10 @@ const ProjectDetails = () => {
     }
   };
 
-  // ✅ CORRECTION 3: Ajouter handleChange pour les inputs
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     
     if (name.includes('.')) {
-      // Pour les champs imbriqués (ex: localisation.ville)
       const [parent, child] = name.split('.');
       setFormData(prev => ({
         ...prev,
@@ -137,7 +133,6 @@ const ProjectDetails = () => {
         }
       }));
     } else {
-      // Pour les champs simples
       setFormData(prev => ({
         ...prev,
         [name]: type === 'checkbox' ? checked : value
@@ -145,7 +140,6 @@ const ProjectDetails = () => {
     }
   };
 
-  // ✅ CORRECTION 4: Fonction handleSave corrigée
   const handleSave = async () => {
     try {
       setLoading(true);
@@ -213,7 +207,7 @@ const ProjectDetails = () => {
 
   const handleCancel = () => {
     setIsEditMode(false);
-    loadProject(projectId); // Recharger les données originales
+    loadProject(projectId); 
   };
 
   const handleDelete = async () => {
@@ -266,7 +260,7 @@ const ProjectDetails = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow p-12 text-center">
-          <p className="text-gray-600 text-lg mb-6">❌ Projet non trouvé</p>
+          <p className="text-gray-600 text-lg mb-6">Projet non trouvé</p>
           <button 
             onClick={() => navigate('/promoteur/mes-projets')}
             className="bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-6 rounded-lg transition-colors"
@@ -379,7 +373,7 @@ const ProjectDetails = () => {
             <span>{getTypeBienLabel(project.typeBien)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <span classeName = "mr-2 text-gray-600"><Eye  size={18}/> </span>
+            <span className = "mr-2 text-gray-600"><Eye  size={18}/> </span>
             <span>{project.vues || 0} vues</span>
           </div>
           <div className="flex items-center gap-1">
@@ -431,7 +425,6 @@ const ProjectDetails = () => {
                 Images du projet
               </h2>
               
-              {/* ✅ Image Principale (Non modifiable ici) */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-700 mb-3">
                   Image Principale
@@ -439,7 +432,7 @@ const ProjectDetails = () => {
                 {project.imagePrincipale ? (
                   <div className="relative inline-block">
                     <img 
-                      src={`http://localhost:3000${project.imagePrincipale}`}
+                      src={`${API_URL}/${project.imagePrincipale}`}
                       alt="Image principale"
                       className="w-full max-w-md h-64 object-cover rounded-lg shadow-lg"
                     />
@@ -458,21 +451,20 @@ const ProjectDetails = () => {
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-3">
                   Galerie ({project.galerie?.length || 0}/10 images)
+                  
                 </h3>
                 <ImageUploader
-                  existingImages={project.galerie || []} // ✅ Seulement la galerie
+                  existingImages={project.galerie || []} 
                   onImagesChange={handleImageUpload}
                   onImageDelete={handleImageDelete}
-                  maxImages={10} // ✅ Max 10 pour la galerie
+                  maxImages={10} 
                   label=""
                 />
               </div>
             </section>
 
-            {/* Description */}
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Description</h2>
-              {/* ✅ CORRECTION 10: Mode édition pour la description */}
               {isEditMode ? (
                 <textarea
                   name="description"

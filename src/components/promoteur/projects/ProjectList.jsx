@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useProjects } from '../../hooks/useProjects';
-import ProjectCard from '../../components/promoteur/ProjectCard';
-import ProjectFilters from '../../components/promoteur/ProjectFilters';
+import { useProjects } from '../../../hooks/useProjects';
+import ProjectCard from './ProjectCard';
+import ProjectFilters from './/ProjectFilters';
 import { Folder } from 'lucide-react';
 
 const ProjectList = () => {

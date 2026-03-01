@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import PhaseCard from './PhaseCard';
 import PhaseForm from './PhaseForm';
-import phaseService from '../../services/phaseService';
+import phaseService from '../../../services/phaseService';
 
 const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
   const [isAdding, setIsAdding] = useState(false);
@@ -80,7 +80,7 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
   };
 
   const handleCreateProject = () => {
-  navigate('/promoteur/creer-projet'); // ✅ Route vers le formulaire
+  navigate('/promoteur/creer-projet'); 
 };
 
   return (

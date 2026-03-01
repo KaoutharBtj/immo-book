@@ -1,6 +1,6 @@
 // components/promoteur/ProjectFilters.jsx
 import React, { useState } from 'react';
-import { TYPE_BIEN, STATUT_PROJET, VILLES_MAROC } from '../../utils/constants';
+import { TYPE_BIEN, STATUT_PROJET, VILLES_MAROC } from '../../../utils/constants';
 
 const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
   const [filters, setFilters] = useState({
