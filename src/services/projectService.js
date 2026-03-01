@@ -58,6 +58,7 @@ const projectService = {
     }
   },
 
+
   searchProjects: async (filters = {}) => {
     try {
       const params = new URLSearchParams();
@@ -84,10 +85,10 @@ const projectService = {
     try {
       const formData = new FormData();
       images.forEach((image) => {
-        formData.append('images', image);
+        formData.append('galerie', image);
       });
 
-      const response = await api.post(`/projets/mes-projets/${projectId}`, formData, {
+      const response = await api.post(`/projets/mes-projets/${projectId}/galerie`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
