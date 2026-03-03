@@ -153,13 +153,13 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         <button 
           type="submit" 
           disabled={loading}
-          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50"
+          className="flex-1 bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50"
         >
           {loading ? 'En cours...' : initialData.titre ? 'Mettre à jour' : 'Ajouter'}
         </button>
       </div>
     </form>
-  );
+  ); 
 };
 
 export default PhaseForm;

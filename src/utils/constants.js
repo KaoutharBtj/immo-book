@@ -1,5 +1,3 @@
-// utils/constants.js
-
 export const TYPE_BIEN = {
   APPARTEMENT: 'appartement',
   VILLA: 'villa',
@@ -19,7 +17,6 @@ export const STATUT_PHASE = {
   NON_COMMENCE: 'non_commence',
   EN_COURS: 'en_cours',
   TERMINE: 'termine',
-  EN_RETARD: 'en_retard'
 };
 
 export const VILLES_MAROC = [

@@ -40,7 +40,6 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
     if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette phase ?')) {
       return;
     }
-
     setLoading(true);
     setError('');
     try {
@@ -79,23 +78,19 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
     }
   };
 
-  const handleCreateProject = () => {
-  navigate('/promoteur/creer-projet'); 
-};
-
   return (
     <div className="space-y-6">
       {/* En-tête */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          📊 Phases du projet
+          Phases du projet
         </h2>
         {!isAdding && (
           <button 
             onClick={() => setIsAdding(true)}
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
           >
-            ➕ Ajouter une phase
+            Ajouter une phase
           </button>
         )}
       </div>
@@ -142,9 +137,9 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
             <p className="text-gray-600 mb-6">Aucune phase n'a encore été créée pour ce projet</p>
             <button 
               onClick={() => setIsAdding(true)}
-              className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+              className="bg-[#1d4370] hover:bg-[#27578F] text-white py-3 px-6 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
             >
-              ➕ Créer la première phase
+              Créer la première phase
             </button>
           </div>
         )

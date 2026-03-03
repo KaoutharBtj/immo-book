@@ -1,8 +1,8 @@
-// components/promoteur/PhaseCard.jsx
 import React, { useState } from 'react';
 import PhaseForm from './PhaseForm';
 import ImageUploader from './ImageUploader';
 import { formatDate, getStatutLabel } from '../../../utils/formatters';
+import {Trash, PenIcon, Calendar} from 'lucide-react';
 
 const PhaseCard = ({ 
   phase, 
@@ -89,7 +89,7 @@ const PhaseCard = ({
                 className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors disabled:opacity-50"
                 title="Modifier"
               >
-                ✏️
+                <PenIcon size = {20} color="black" />
               </button>
               <button
                 onClick={handleDelete}
@@ -97,7 +97,7 @@ const PhaseCard = ({
                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                 title="Supprimer"
               >
-                🗑️
+                <Trash size={20} color="red"/>
               </button>
             </div>
           </div>
@@ -108,11 +108,11 @@ const PhaseCard = ({
           {/* Dates */}
           <div className="flex flex-wrap gap-4 mb-4 pb-4 border-b">
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <span className="font-medium">📅 Début :</span>
+              <span className="font-medium flex items-center gap-1"><Calendar size={20} color="#1d4370"/> Début :</span>
               <span>{formatDate(phase.dateDebut)}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <span className="font-medium">📅 Fin :</span>
+              <span className="font-medium flex items-center gap-1"><Calendar size={20} color="#1d4370"/> Fin :</span>
               <span>{formatDate(phase.dateFin)}</span>
             </div>
           </div>

@@ -1,37 +1,35 @@
-// services/phaseService.js
+
 import api from './api';
 
-/**
- * Service de gestion des phases de projet
- */
 const phaseService = {
-  /**
-   * Ajouter une phase à un projet
-   */
+
   addPhase: async (projectId, phaseData) => {
     try {
-      const response = await api.post(`/projets/mes-projets/${projectId}/phases`, phaseData);
-      return response.data;
+        const formData = new FormData();
+        formData.append('titre', phaseData.titre);
+        formData.append('description', phaseData.description);
+        if (phaseData.dateDebut) formData.append('dateDebut', phaseData.dateDebut);
+        if (phaseData.dateFin) formData.append('dateFin', phaseData.dateFin);
+        if (phaseData.statut) formData.append('statut', phaseData.statut);
+      const response = await api.post(`/projets/mes-projets/${projectId}/phases`,
+            formData,
+            { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+        return response.data;
     } catch (error) {
       throw error.response?.data || error;
     }
   },
 
-  /**
-   * Mettre à jour une phase
-   */
   updatePhase: async (projectId, phaseId, phaseData) => {
     try {
-      const response = await api.put(`/projets/${projectId}/phases/${phaseId}`, phaseData);
+      const response = await api.put(`/projets/mes-projets/${projectId}/phases/${phaseId}`, phaseData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
     }
   },
 
-  /**
-   * Supprimer une phase
-   */
   deletePhase: async (projectId, phaseId) => {
     try {
       const response = await api.delete(`/projets/mes-projets/${projectId}/phases/${phaseId}`);
@@ -41,9 +39,6 @@ const phaseService = {
     }
   },
 
-  /**
-   * Upload des images d'une phase
-   */
   uploadPhaseImages: async (projectId, phaseId, images) => {
     try {
       const formData = new FormData();
@@ -52,7 +47,7 @@ const phaseService = {
       });
 
       const response = await api.post(
-        `/projets/mes-projets/${projectId}/phases/${phaseId}/images`,
+        `/projets/mes-projets/${projectId}/phases/${phaseId}`,
         formData,
         {
           headers: {
@@ -66,13 +61,10 @@ const phaseService = {
     }
   },
 
-  /**
-   * Supprimer une image d'une phase
-   */
   deletePhaseImage: async (projectId, phaseId, imageUrl) => {
     try {
       const response = await api.delete(
-        `/projects/mes-projets/${projectId}/phases/${phaseId}/images`,
+        `/projets/mes-projets/${projectId}/phases/${phaseId}/images`,
         {
           data: { imageUrl }
         }
