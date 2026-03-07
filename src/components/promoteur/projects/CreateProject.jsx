@@ -479,6 +479,7 @@ const CreateProject = () => {
                   Longitude <span className="text-red-500">*</span>
                 </label>
                 <input
+                
                   type="number"
                   step="0.000001"
                   name="localisation.coordinates.longitude"
