@@ -4,7 +4,7 @@ import PhaseCard from './PhaseCard';
 import PhaseForm from './PhaseForm';
 import phaseService from '../../../services/phaseService';
 
-const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
+const PhaseList = ({ projectId, phases = [], onPhasesUpdate, isClient = false }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -85,7 +85,7 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
         <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
           Phases du projet
         </h2>
-        {!isAdding && (
+        {!isClient && !isAdding && (
           <button 
             onClick={() => setIsAdding(true)}
             className="bg-[#1d4370] hover:bg-[#27578F] text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center gap-2"
@@ -98,12 +98,12 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
       {/* Message d'erreur */}
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded">
-          ⚠️ {error}
+          {error}
         </div>
       )}
 
       {/* Formulaire d'ajout */}
-      {isAdding && (
+      {!isClient && isAdding && (
         <PhaseForm
           onSubmit={handleAddPhase}
           onCancel={() => setIsAdding(false)}
@@ -127,6 +127,7 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
                 onImageUpload={handleImageUpload}
                 onImageDelete={handleImageDelete}
                 loading={loading}
+                isClient={isClient}
               />
             ))}
         </div>
@@ -135,12 +136,14 @@ const PhaseList = ({ projectId, phases = [], onPhasesUpdate }) => {
           <div className="bg-white rounded-lg shadow p-12 text-center">
             <div className="text-5xl mb-4 opacity-50">📋</div>
             <p className="text-gray-600 mb-6">Aucune phase n'a encore été créée pour ce projet</p>
-            <button 
-              onClick={() => setIsAdding(true)}
-              className="bg-[#1d4370] hover:bg-[#27578F] text-white py-3 px-6 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
-            >
-              Créer la première phase
-            </button>
+            {!isClient && (
+                <button 
+                    onClick={() => setIsAdding(true)}
+                    className="bg-[#1d4370] hover:bg-[#27578F] text-white py-3 px-6 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+                  >
+                    Créer la première phase
+                </button>
+            )}
           </div>
         )
       )}

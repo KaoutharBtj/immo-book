@@ -1,9 +1,7 @@
-// components/promoteur/ProjectMap.jsx
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix pour les icônes Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -49,7 +47,7 @@ const ProjectMap = ({ latitude, longitude, title, address }) => {
   if (!latitude || !longitude) {
     return (
       <div className="bg-gray-100 rounded-lg p-12 text-center">
-        <p className="text-gray-500 text-lg">📍 Coordonnées de localisation non disponibles</p>
+        <p className="text-gray-500 text-lg">Coordonnées de localisation non disponibles</p>
       </div>
     );
   }

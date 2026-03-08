@@ -12,7 +12,8 @@ const PhaseCard = ({
   onDelete,
   onImageUpload,
   onImageDelete,
-  loading 
+  loading ,
+  isClient= false
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showImages, setShowImages] = useState(false);
@@ -72,9 +73,7 @@ const PhaseCard = ({
           </div>
         </div>
 
-        {/* Contenu de la phase */}
         <div className="flex-1 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 mb-6">
-          {/* En-tête */}
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-2">{phase.titre}</h3>
@@ -82,30 +81,30 @@ const PhaseCard = ({
                 {getStatutLabel(phase.statut)}
               </span>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setIsEditing(true)}
-                disabled={loading}
-                className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors disabled:opacity-50"
-                title="Modifier"
-              >
-                <PenIcon size = {20} color="black" />
-              </button>
-              <button
-                onClick={handleDelete}
-                disabled={loading}
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                title="Supprimer"
-              >
-                <Trash size={20} color="red"/>
-              </button>
-            </div>
+            {!isClient && (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  disabled={loading}
+                  className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors disabled:opacity-50"
+                  title="Modifier"
+                >
+                  <PenIcon size = {20} color="black" />
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={loading}
+                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                  title="Supprimer"
+                >
+                  <Trash size={20} color="red"/>
+                </button>
+              </div>
+          )}
           </div>
 
-          {/* Description */}
           <p className="text-gray-700 mb-4 leading-relaxed">{phase.description}</p>
 
-          {/* Dates */}
           <div className="flex flex-wrap gap-4 mb-4 pb-4 border-b">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span className="font-medium flex items-center gap-1"><Calendar size={20} color="#1d4370"/> Début :</span>
@@ -117,7 +116,6 @@ const PhaseCard = ({
             </div>
           </div>
 
-          {/* Images */}
           <div>
             <button
               onClick={() => setShowImages(!showImages)}
@@ -134,13 +132,15 @@ const PhaseCard = ({
 
             {showImages && (
               <div className="bg-gray-50 rounded-lg p-4">
-                <ImageUploader
-                  existingImages={phase.images || []}
-                  onImagesChange={handleImageUpload}
-                  onImageDelete={handleImageDelete}
-                  maxImages={15}
-                  label="Images de cette phase"
-                />
+                {isClient && (
+                    <ImageUploader
+                    existingImages={phase.images || []}
+                    onImagesChange={handleImageUpload}
+                    onImageDelete={handleImageDelete}
+                    maxImages={15}
+                    label="Images de cette phase"
+                  />
+                )}
               </div>
             )}
           </div>

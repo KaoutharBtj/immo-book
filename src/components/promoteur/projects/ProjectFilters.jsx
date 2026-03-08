@@ -1,4 +1,3 @@
-// components/promoteur/ProjectFilters.jsx
 import React, { useState } from 'react';
 import { TYPE_BIEN, STATUT_PROJET, VILLES_MAROC } from '../../../utils/constants';
 
@@ -55,7 +54,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md mb-6">
-      {/* En-tête */}
       <div className="flex items-center justify-between p-4 border-b">
         <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
           Filtrer les projets
@@ -69,11 +67,9 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
         </button>
       </div>
 
-      {/* Formulaire de filtres */}
       {isExpanded && (
         <form onSubmit={handleSubmit} className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-            {/* Type de bien */}
             <div>
               <label htmlFor="typeBien" className="block text-sm font-medium text-gray-700 mb-1">
                 Type de bien
@@ -94,7 +90,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               </select>
             </div>
 
-            {/* Ville */}
             <div>
               <label htmlFor="ville" className="block text-sm font-medium text-gray-700 mb-1">
                 Ville
@@ -113,7 +108,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               </select>
             </div>
 
-            {/* Prix minimum */}
             <div>
               <label htmlFor="prixMin" className="block text-sm font-medium text-gray-700 mb-1">
                 Prix min (DH)
@@ -130,7 +124,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Prix maximum */}
             <div>
               <label htmlFor="prixMax" className="block text-sm font-medium text-gray-700 mb-1">
                 Prix max (DH)
@@ -147,7 +140,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Surface minimum */}
             <div>
               <label htmlFor="surfaceMin" className="block text-sm font-medium text-gray-700 mb-1">
                 Surface min (m²)
@@ -164,7 +156,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Surface maximum */}
             <div>
               <label htmlFor="surfaceMax" className="block text-sm font-medium text-gray-700 mb-1">
                 Surface max (m²)
@@ -181,7 +172,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Nombre de chambres */}
             <div>
               <label htmlFor="nombreChambres" className="block text-sm font-medium text-gray-700 mb-1">
                 Chambres min
@@ -198,7 +188,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Statut */}
             <div>
               <label htmlFor="statut" className="block text-sm font-medium text-gray-700 mb-1">
                 Statut
@@ -219,7 +208,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               </select>
             </div>
 
-            {/* Date début */}
             <div>
               <label htmlFor="dateDebut" className="block text-sm font-medium text-gray-700 mb-1">
                 Date début
@@ -234,7 +222,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
               />
             </div>
 
-            {/* Date fin */}
             <div>
               <label htmlFor="dateFin" className="block text-sm font-medium text-gray-700 mb-1">
                 Date fin
@@ -250,7 +237,6 @@ const ProjectFilters = ({ onApplyFilters, onResetFilters }) => {
             </div>
           </div>
 
-          {/* Boutons d'action */}
           <div className="flex gap-3 mt-6">
             <button 
               type="submit" 

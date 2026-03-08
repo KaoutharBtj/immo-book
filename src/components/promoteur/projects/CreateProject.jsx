@@ -1,4 +1,3 @@
-// pages/promoteur/CreateProject.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import projectService from '../../../services/projectService';
@@ -113,7 +112,6 @@ const CreateProject = () => {
 
 
     try {
-      // Validation
       if (!formData.imagePrincipale) {
         setError('Veuillez sélectionner une image principale');
         setLoading(false);
@@ -138,13 +136,10 @@ const CreateProject = () => {
         return;
       }
 
-      // Créer FormData pour envoyer l'image
       const data = new FormData();
       
-      // Ajouter l'image
       data.append('imagePrincipale', formData.imagePrincipale);
       data.append('galerie',formData.galrie);
-      // Ajouter les champs de base
       data.append('titre', formData.titre);
       data.append('description', formData.description);
       data.append('typeBien', formData.typeBien);
@@ -156,7 +151,6 @@ const CreateProject = () => {
         data.append('dateFinPrevue', formData.dateFinPrevue);
       }
 
-      // Ajouter les champs de localisation individuellement
       data.append('adresse', formData.localisation.adresse);
       data.append('ville', formData.localisation.ville);
       data.append('latitude', formData.localisation.coordinates.latitude);
@@ -169,10 +163,8 @@ const CreateProject = () => {
         data.append('quartier', formData.localisation.quartier);
       }
 
-      // Ajouter la surface totale
       data.append('surfaceTotale', formData.caracteristiques.surfaceTotale);
 
-      // Ajouter les autres caractéristiques
       data.append('nombreChambres', formData.caracteristiques.nombreChambres);
       data.append('nombreSallesBain', formData.caracteristiques.nombreSallesBain);
       data.append('nombreSallesEau', formData.caracteristiques.nombreSallesEau);
@@ -213,7 +205,6 @@ const CreateProject = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* En-tête */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Créer un nouveau projet</h1>
         <button 
@@ -225,22 +216,18 @@ const CreateProject = () => {
         </button>
       </div>
 
-      {/* Message d'erreur */}
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-          <p className="font-medium">⚠️ {error}</p>
+          <p className="font-medium"> {error}</p>
         </div>
       )}
 
-      {/* Formulaire */}
       <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-6">
         
-        {/* Informations de base */}
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-4"> Informations de base</h2>
           
           <div className="space-y-4">
-            {/* Titre */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Titre du projet <span className="text-red-500">*</span>
@@ -257,7 +244,6 @@ const CreateProject = () => {
               />
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Description <span className="text-red-500">*</span>
@@ -274,7 +260,6 @@ const CreateProject = () => {
               />
             </div>
 
-            {/* Type de bien et Statut */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -320,7 +305,6 @@ const CreateProject = () => {
               </div>
             </div>
 
-            {/* Prix */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Prix (DH) <span className="text-red-500">*</span>
@@ -337,7 +321,6 @@ const CreateProject = () => {
               />
             </div>
 
-            {/* Dates */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -367,7 +350,6 @@ const CreateProject = () => {
               </div>
             </div>
 
-            {/* Image principale */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Image principale <span className="text-red-500">*</span>
@@ -389,7 +371,6 @@ const CreateProject = () => {
           </div>
         </section>
 
-        {/* Localisation */}
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-4">Localisation</h2>
           
@@ -494,7 +475,6 @@ const CreateProject = () => {
           </div>
         </section>
 
-        {/* Caractéristiques */}
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-4">Caractéristiques</h2>
           
@@ -543,8 +523,6 @@ const CreateProject = () => {
                 />
               </div>
             </div>
-
-            {/* Équipements */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Équipements
@@ -579,7 +557,6 @@ const CreateProject = () => {
           </div>
         </section>
 
-        {/* Boutons d'action */}
         <div className="flex gap-4 pt-4">
           <button
             type="button"

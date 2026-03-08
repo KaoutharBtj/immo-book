@@ -13,7 +13,7 @@ import ProjectDetails from './components/promoteur/projects/ProjectDetails';
 import ProjectList from  './components/promoteur/projects/ProjectList';
 import CreateProject from './components/promoteur/projects/CreateProject';
 
-import ClientProjects from './components/clients/projects/ClientProjects';
+import TousLesProjets from './pages/client/TousLesProjets';
 import ClientReservations from './components/clients/ClientReservations';
 import FavorisProject from './components/clients/FavorisProject';
 
@@ -36,7 +36,7 @@ function App() {
         <Route path="/promoteur/mes-projets/creer-projet" element={<ProtectedRoute allowedRoles={'promoteur'}> <CreateProject /> </ProtectedRoute>}/>
 
 
-        <Route path="client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientProjects/> </ProtectedRoute>}/>
+        <Route path="client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <TousLesProjets/> </ProtectedRoute>}/>
         <Route path="client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientReservations/> </ProtectedRoute>}/>
         <Route path="client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <FavorisProject/> </ProtectedRoute>}/>
 

@@ -46,7 +46,6 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         {initialData.titre ? 'Modifier la phase' : 'Nouvelle phase'}
       </h3>
 
-      {/* Titre */}
       <div className="mb-4">
         <label htmlFor="titre" className="block text-sm font-medium text-gray-700 mb-2">
           Titre de la phase <span className="text-red-500">*</span>
@@ -64,7 +63,6 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         {errors.titre && <p className="text-red-500 text-sm mt-1">{errors.titre}</p>}
       </div>
 
-      {/* Description */}
       <div className="mb-4">
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
           Description <span className="text-red-500">*</span>
@@ -82,7 +80,6 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
       </div>
 
-      {/* Dates */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label htmlFor="dateDebut" className="block text-sm font-medium text-gray-700 mb-2">
@@ -117,7 +114,6 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         </div>
       </div>
 
-      {/* Statut */}
       <div className="mb-6">
         <label htmlFor="statut" className="block text-sm font-medium text-gray-700 mb-2">
           Statut <span className="text-red-500">*</span>
@@ -140,7 +136,6 @@ const PhaseForm = ({ initialData = {}, onSubmit, onCancel, loading = false }) =>
         </select>
       </div>
 
-      {/* Actions */}
       <div className="flex gap-3">
         <button 
           type="button" 

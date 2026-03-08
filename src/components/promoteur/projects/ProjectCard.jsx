@@ -1,7 +1,5 @@
-// components/promoteur/ProjectCard.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import getImageUrl from '../../../services/api';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 import { 
   formatPrice, 
@@ -13,11 +11,15 @@ import {
   truncateText 
 } from '../../../utils/formatters';
 
-const ProjectCard = ({ project, onDelete }) => {
+const ProjectCard = ({ project, onDelete, isClient= false }) => {
   const navigate = useNavigate();
   const API_URL = 'http://localhost:3000'
   const handleViewDetails = () => {
-    navigate(`/promoteur/mes-projets/${project._id}`);
+    if(isClient) {
+      navigate(`/client-projects/${project._id}`)
+    }else{
+      navigate(`/promoteur/mes-projets/${project._id}`);
+    }
   };
 
   const handleEdit = () => {
@@ -42,7 +44,6 @@ const ProjectCard = ({ project, onDelete }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-      {/* Image principale */}
       <div className="relative h-48 overflow-hidden">
         {project.imagePrincipale ? (
           <img
@@ -59,9 +60,7 @@ const ProjectCard = ({ project, onDelete }) => {
         </span>
       </div>
 
-      {/* Contenu */}
       <div className="p-4">
-        {/* En-tête */}
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-gray-800 line-clamp-1">
             {project.titre}
@@ -71,12 +70,10 @@ const ProjectCard = ({ project, onDelete }) => {
           </span>
         </div>
 
-        {/* Description */}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
           {truncateText(project.description, 100)}
         </p>
 
-        {/* Informations */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-gray-700">
             <span className="mr-2"><MapPin size={18} color="black"/></span>
@@ -102,7 +99,6 @@ const ProjectCard = ({ project, onDelete }) => {
           </div>
         </div>
 
-        {/* Statistiques */}
         <div className="flex items-center justify-between text-xs text-gray-500 mb-4 pt-4 border-t">
           <div className="flex items-center gap-1">
             <span><Eye size={16}/></span>
@@ -114,13 +110,11 @@ const ProjectCard = ({ project, onDelete }) => {
           </div>
           {project.phases && project.phases.length > 0 && (
             <div className="flex items-center gap-1">
-              <span>📊</span>
               <span>{project.phases.length} phases</span>
             </div>
           )}
         </div>
 
-        {/* Actions */}
         <div className="flex gap-2">
           <button 
             onClick={handleViewDetails}
@@ -128,19 +122,23 @@ const ProjectCard = ({ project, onDelete }) => {
           >
             Voir
           </button>
-          <button 
-            onClick={handleEdit}
-            className="flex-1 bg-[#a18651] hover:bg-[#B89C64] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
-          >
-            Modifier
-          </button>
-          <button 
-            onClick={handleDelete}
-            className="bg-gray-200 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
-            title="Supprimer"
-          >
-            <Trash size={16} color="black"/>
-          </button>
+          {!isClient && (
+            <div className="flex gap-2">
+                <button 
+                    onClick={handleEdit}
+                    className="flex-1 bg-[#a18651] hover:bg-[#B89C64] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1"
+                  >
+                    Modifier
+                </button>
+                <button 
+                    onClick={handleDelete}
+                    className="bg-gray-200 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+                    title="Supprimer"
+                  >
+                    <Trash size={16} color="black"/>
+                </button>
+            </div>
+          ) }
         </div>
       </div>
     </div>

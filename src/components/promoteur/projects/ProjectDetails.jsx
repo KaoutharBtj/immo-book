@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import projectService from '../../../services/projectService';
 import PhaseList from './PhaseList';
 import ProjectMap from './ProjectMap';
-import ReviewsList from '../ReviewsList';
 import ImageUploader from './ImageUploader';
 import { MapPin, Home, Square,  DollarSign, Eye, Trash, Calendar, Bed, ShowerHead, Camera } from "lucide-react";
 import { 
@@ -288,7 +287,7 @@ const ProjectDetails = () => {
           ← Retour
         </button>
         
-        {/* ✅ CORRECTION 7: Boutons conditionnels selon le mode */}
+
         <div className="flex gap-3">
           {isEditMode ? (
             <>
@@ -324,11 +323,11 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      {/* Titre et statut */}
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
           <div className="flex-1">
-            {/* ✅ CORRECTION 8: Mode édition pour le titre */}
+
             {isEditMode ? (
               <input
                 type="text"
@@ -341,7 +340,6 @@ const ProjectDetails = () => {
               <h1 className="text-3xl font-bold text-[#a18651] mb-2">{project.titre}</h1>
             )}
             
-            {/* ✅ CORRECTION 9: Mode édition pour le statut */}
             {isEditMode ? (
               <select
                 name="statut"
@@ -362,7 +360,6 @@ const ProjectDetails = () => {
           </div>
         </div>
 
-        {/* Meta informations */}
         <div className="flex flex-wrap gap-4 text-sm text-gray-600">
           <div className="flex items-center gap-1">
             <span className="mr-2 text-gray-600" ><MapPin size={18} /></span>
@@ -383,7 +380,7 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      {/* Onglets */}
+
       <div className="bg-white rounded-t-lg shadow-md overflow-x-auto">
         <div className="flex border-b">
           {tabs.map(tab => (
@@ -412,13 +409,11 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      {/* Contenu des onglets */}
+
       <div className="bg-white rounded-b-lg shadow-md p-6">
-        {/* Onglet Détails */}
         {activeTab === 'details' && (
 
           <div className="space-y-8">
-            {/* Images */}
             <section>
               <h2 className="text-2xl font-bold text-black mb-4 flex items-center gap-2">
                 <Camera size={24} className="text-[#1d4370]" />
@@ -447,7 +442,6 @@ const ProjectDetails = () => {
                 )}
               </div>
 
-              {/* ✅ Galerie (Modifiable) */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-3">
                   Galerie ({project.galerie?.length || 0}/10 images)
@@ -480,10 +474,8 @@ const ProjectDetails = () => {
               )}
             </section>
 
-            {/* Informations principales */}
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4"> Informations principales</h2>
-              {/* ✅ CORRECTION 11: Formulaire d'édition des infos */}
               {isEditMode ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -565,10 +557,8 @@ const ProjectDetails = () => {
               )}
             </section>
 
-            {/* Équipements booléens */}
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Équipements</h2>
-              {/* ✅ CORRECTION 12: Checkboxes en mode édition */}
               {isEditMode ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {['ascenseur', 'balcon', 'terrasse', 'garage', 'jardin', 'piscine', 'climatisation', 'chauffage', 'securite', 'gardien', 'meuble'].map(equip => (
@@ -647,7 +637,6 @@ const ProjectDetails = () => {
           </div>
         )}
 
-        {/* Onglet Phases */}
         {activeTab === 'phases' && (
           <PhaseList
             projectId={projectId}
@@ -656,12 +645,10 @@ const ProjectDetails = () => {
           />
         )}
 
-        {/* Onglet Localisation */}
         {activeTab === 'localisation' && (
           <div className="space-y-6">
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4"> Adresse</h2>
-              {/* ✅ CORRECTION 13: Mode édition pour la localisation */}
               {isEditMode ? (
                 
                 <div className="bg-gray-50 rounded-lg p-6 space-y-4">
@@ -734,7 +721,6 @@ const ProjectDetails = () => {
   );
 };
 
-// Composant utilitaire pour les cartes d'information
 const InfoCard = ({ icon, label, value }) => (
   <div className="bg-blue-50 rounded-lg p-4">
     <div className="flex items-center gap-2 mb-1">
@@ -745,7 +731,6 @@ const InfoCard = ({ icon, label, value }) => (
   </div>
 );
 
-// Composant utilitaire pour les lignes d'information
 const InfoRow = ({ label, value }) => (
   <div className="flex items-start gap-2">
     <span className="font-semibold text-gray-700 min-w-[120px]">{label}:</span>

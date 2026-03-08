@@ -32,7 +32,6 @@ const ProjectList = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* En-tête */}
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
@@ -46,7 +45,6 @@ const ProjectList = () => {
           </button>
         </div>
         
-        {/* Statistiques rapides */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3">
@@ -92,20 +90,17 @@ const ProjectList = () => {
         </div>
       </div>
 
-      {/* Filtres */}
       <ProjectFilters
         onApplyFilters={applyFilters}
         onResetFilters={resetFilters}
       />
 
-      {/* Message d'erreur */}
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
           <p className="font-medium">{error}</p>
         </div>
       )}
 
-      {/* Chargement */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
@@ -113,7 +108,7 @@ const ProjectList = () => {
         </div>
       )}
 
-      {/* Liste des projets */}
+
       {!loading && projects.length > 0 && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -126,7 +121,6 @@ const ProjectList = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           {pagination.totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 mt-8">
               <button
@@ -153,7 +147,6 @@ const ProjectList = () => {
         </>
       )}
 
-      {/* Aucun projet */}
       {!loading && projects.length === 0 && (
         
         <div className="bg-white rounded-lg shadow-md p-12 text-center">
