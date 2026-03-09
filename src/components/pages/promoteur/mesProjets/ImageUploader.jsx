@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { validateImages } from '../../../utils/validators';
+import { validateImages } from '../../../../utils/validators';
 import { Camera } from 'lucide-react';
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '/placeholder-project.jpg';

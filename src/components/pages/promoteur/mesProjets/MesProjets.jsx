@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useProjects } from '../../../hooks/useProjects';
-import ProjectCard from './ProjectCard';
-import ProjectFilters from './/ProjectFilters';
+import { useProjects } from '../../../../hooks/useProjects';
+import ProjectCard from '../../../shared/ProjectCard';
+import ProjectFilters from '../../../shared/ProjectFilters';
 import { Folder } from 'lucide-react';
 
 const ProjectList = () => {
@@ -26,9 +26,6 @@ const ProjectList = () => {
     }
   };
 
-  const handleCreateProject = () => {
-    navigate('/promoteur/mes-projets');
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

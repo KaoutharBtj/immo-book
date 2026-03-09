@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import projectService from '../../../services/projectService';
-import PhaseList from './PhaseList';
-import ProjectMap from './ProjectMap';
+import projectService from '../../../../services/projectService';
+import PhaseList from '../../../shared/PhaseList';
+import ProjectMap from '../../../shared/ProjectMap';
 import ImageUploader from './ImageUploader';
 import { MapPin, Home, Square,  DollarSign, Eye, Trash, Calendar, Bed, ShowerHead, Camera } from "lucide-react";
 import { 
@@ -11,7 +11,7 @@ import {
   formatDate, 
   getStatutLabel,
   getTypeBienLabel 
-} from '../../../utils/formatters';
+} from '../../../../utils/formatters';
 const API_URL = 'http://localhost:3000';
 
 const ProjectDetails = () => {

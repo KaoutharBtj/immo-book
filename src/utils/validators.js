@@ -1,8 +1,3 @@
-// utils/validators.js
-
-/**
- * Valide les données d'un projet
- */
 export const validateProject = (data) => {
   const errors = {};
 
@@ -40,9 +35,7 @@ export const validateProject = (data) => {
   };
 };
 
-/**
- * Valide les données d'une phase
- */
+
 export const validatePhase = (data) => {
   const errors = {};
 

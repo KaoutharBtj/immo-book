@@ -7,15 +7,15 @@ import About from './components/about/About';
 import EmailVerification from './components/authentication/EmailVerification';
 import ProtectedRoute from './components/ProtectedRoute';
 import NonAutorise  from './components/NonAutorise';
-import Dashboard from './components/promoteur/Dashboard';
-import PromoReservations from './components/promoteur/PromoReservations';
-import ProjectDetails from './components/promoteur/projects/ProjectDetails';
-import ProjectList from  './components/promoteur/projects/ProjectList';
-import CreateProject from './components/promoteur/projects/CreateProject';
+import Dashboard from './components/pages/promoteur/Dashboard';
+import PromoReservations from './components/pages/promoteur/PromoReservations';
+import ProjectDetails from './components/pages/promoteur/mesProjets/ProjectDetails';
+import MesProjets from  './components/pages/promoteur/mesProjets/MesProjets';
+import CreateProject from './components/pages/promoteur/mesProjets/CreateProject';
 
-import TousLesProjets from './pages/client/TousLesProjets';
-import ClientReservations from './components/clients/ClientReservations';
-import FavorisProject from './components/clients/FavorisProject';
+import TousLesProjets from './components/pages/client/tousLesProjets/TousLesProjets';
+import MesReservations from './components/pages/client/MesReservations';
+import MesFavoris from './components/pages/client/MesFavoris';
 
 
 function App() {
@@ -25,11 +25,11 @@ function App() {
     <Routes>
       <Route path='/' element={<SharedLayout/>}>
 
-        <Route lement={<ProtectedRoute allowedRoles={['promoteur','client_physique', 'client_entreprise']  }> <ProjectList /> </ProtectedRoute>}>
+        <Route lement={<ProtectedRoute allowedRoles={['promoteur','client_physique', 'client_entreprise']  }> <MesProjets /> </ProtectedRoute>}>
             <Route path='verification-email' element = {<EmailVerification/>}/>
         </Route>
         
-        <Route path="/promoteur/mes-projets" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectList /> </ProtectedRoute>}/>
+        <Route path="/promoteur/mes-projets" element={<ProtectedRoute allowedRoles={'promoteur'}> <MesProjets /> </ProtectedRoute>}/>
         <Route path="promoteur/reservations" element={<ProtectedRoute allowedRoles={'promoteur'}> <PromoReservations/> </ProtectedRoute>}/>
         <Route path="promoteur/tableau-de-bord" element={<ProtectedRoute allowedRoles={'promoteur'}> <Dashboard/> </ProtectedRoute>}/>
         <Route path="/promoteur/mes-projets/:id" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails /> </ProtectedRoute>}/>
@@ -37,8 +37,8 @@ function App() {
 
 
         <Route path="client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <TousLesProjets/> </ProtectedRoute>}/>
-        <Route path="client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientReservations/> </ProtectedRoute>}/>
-        <Route path="client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <FavorisProject/> </ProtectedRoute>}/>
+        <Route path="client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesReservations/> </ProtectedRoute>}/>
+        <Route path="client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesFavoris/> </ProtectedRoute>}/>
 
         <Route path="non-autorise" element={<ProtectedRoute allowedRoles={['promoteur', 'client_physique', 'client_entreprise']}><NonAutorise/> </ProtectedRoute>}/>
         <Route path='about' element = {<About/>}/>

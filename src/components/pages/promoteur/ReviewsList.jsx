@@ -1,7 +1,7 @@
 // components/promoteur/ReviewsList.jsx
 import React from 'react';
-import StarRating from './StarRating';
-import { formatDateTime } from '../../utils/formatters';
+import StarRating from '../../shared/StarRating';
+import { formatDateTime } from '../../../utils/formatters';
 
 const ReviewsList = ({ reviews = [], averageRating = 0 }) => {
   if (!reviews || reviews.length === 0) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
+import StarRating from './StarRating';
 import { 
   formatPrice, 
   formatSurface, 
@@ -9,7 +10,7 @@ import {
   getStatutClass,
   getTypeBienLabel,
   truncateText 
-} from '../../../utils/formatters';
+} from '../../utils/formatters';
 
 const ProjectCard = ({ project, onDelete, isClient= false }) => {
   const navigate = useNavigate();
@@ -69,10 +70,20 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
             {getTypeBienLabel(project.typeBien)}
           </span>
         </div>
+        <div className="flex items-center justify-between p-4">
+          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+            {truncateText(project.description, 100)}
+          </p>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {truncateText(project.description, 100)}
-        </p>
+          {isClient && (
+            <StarRating 
+              rating={project.averageStars} 
+              totalReviews={project.totalReviews}
+              size="sm"
+            />
+          )}
+        </div>
+
 
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-gray-700">

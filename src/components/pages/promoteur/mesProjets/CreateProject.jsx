@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import projectService from '../../../services/projectService';
-import { TYPE_BIEN, STATUT_PROJET, VILLES_MAROC } from '../../../utils/constants';
+import projectService from '../../../../services/projectService';
+import { TYPE_BIEN, STATUT_PROJET, VILLES_MAROC } from '../../../../utils/constants';
 
 const CreateProject = () => {
   const navigate = useNavigate();

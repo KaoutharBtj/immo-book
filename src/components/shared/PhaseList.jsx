@@ -1,8 +1,7 @@
-// components/promoteur/PhaseList.jsx
 import React, { useState } from 'react';
 import PhaseCard from './PhaseCard';
-import PhaseForm from './PhaseForm';
-import phaseService from '../../../services/phaseService';
+import PhaseForm from '../pages/promoteur/mesProjets/PhaseForm';
+import phaseService from '../../services/phaseService';
 
 const PhaseList = ({ projectId, phases = [], onPhasesUpdate, isClient = false }) => {
   const [isAdding, setIsAdding] = useState(false);
