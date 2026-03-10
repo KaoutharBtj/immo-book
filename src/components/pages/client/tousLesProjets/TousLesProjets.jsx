@@ -15,7 +15,7 @@ const TousLesProjets = () => {
         applyFilters,
         resetFilters,
         changePage
-    } = useProjects({ page: 1, limit: 10});
+    } = useProjects({ page: 1, limit: 10}, true);
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">

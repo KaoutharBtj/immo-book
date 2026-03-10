@@ -5,7 +5,7 @@ import ProjectCard from '../../../shared/ProjectCard';
 import ProjectFilters from '../../../shared/ProjectFilters';
 import { Folder } from 'lucide-react';
 
-const ProjectList = () => {
+const MesProjets = () => {
   const navigate = useNavigate();
   const {
     projects,
@@ -166,4 +166,4 @@ const ProjectList = () => {
   );
 };
 
-export default ProjectList;
+export default MesProjets;

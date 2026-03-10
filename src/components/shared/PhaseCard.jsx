@@ -6,7 +6,6 @@ import {Trash, PenIcon, Calendar} from 'lucide-react';
 
 const PhaseCard = ({ 
   phase, 
-  projectId,
   isLast, 
   onUpdate, 
   onDelete,

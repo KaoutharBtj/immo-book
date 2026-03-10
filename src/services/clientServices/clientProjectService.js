@@ -1,4 +1,4 @@
-import api from './api';
+import api from '../api';
 
 const clientProjectService = {
     getAllProjects : async () => {
@@ -7,7 +7,8 @@ const clientProjectService = {
     },
 
     getProjectById: async (id) => {
-        const response = api.get(`/client-projects/${id}`);
+        const response = await api.get(`/client-projects/${id}`);
+        console.log('data of a project ',response.data);
         return response.data;
     }
 }

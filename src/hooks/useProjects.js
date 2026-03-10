@@ -1,11 +1,12 @@
 // hooks/useProjects.js
 import { useState, useEffect, useCallback } from 'react';
 import projectService from '../services/projectService';
+import clientProjectService from '../services/clientServices/clientProjectService';
 
 /**
  * Hook personnalisé pour gérer les projets
  */
-export const useProjects = (initialFilters = {}) => {
+export const useProjects = (initialFilters = {}, isClient = false) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,8 +24,15 @@ export const useProjects = (initialFilters = {}) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await projectService.getMyProjects(filters);
-      setProjects(data.projects);
+      let data;
+      if(isClient) {
+        data = await clientProjectService.getAllProjects(filters);
+        setProjects(data.data);
+        console.log('data from API:', data);
+      } else {
+        data = await projectService.getMyProjects(filters);
+        setProjects(data.projects);
+      }
       setPagination({
         currentPage: data.currentPage,
         totalPages: data.totalPages,

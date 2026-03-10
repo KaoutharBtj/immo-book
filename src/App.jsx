@@ -14,6 +14,7 @@ import MesProjets from  './components/pages/promoteur/mesProjets/MesProjets';
 import CreateProject from './components/pages/promoteur/mesProjets/CreateProject';
 
 import TousLesProjets from './components/pages/client/tousLesProjets/TousLesProjets';
+import ClientProjectDetails from './components/pages/client/tousLesProjets/ClientProjectDetails';
 import MesReservations from './components/pages/client/MesReservations';
 import MesFavoris from './components/pages/client/MesFavoris';
 
@@ -30,15 +31,16 @@ function App() {
         </Route>
         
         <Route path="/promoteur/mes-projets" element={<ProtectedRoute allowedRoles={'promoteur'}> <MesProjets /> </ProtectedRoute>}/>
-        <Route path="promoteur/reservations" element={<ProtectedRoute allowedRoles={'promoteur'}> <PromoReservations/> </ProtectedRoute>}/>
-        <Route path="promoteur/tableau-de-bord" element={<ProtectedRoute allowedRoles={'promoteur'}> <Dashboard/> </ProtectedRoute>}/>
+        <Route path="/promoteur/reservations" element={<ProtectedRoute allowedRoles={'promoteur'}> <PromoReservations/> </ProtectedRoute>}/>
+        <Route path="/promoteur/tableau-de-bord" element={<ProtectedRoute allowedRoles={'promoteur'}> <Dashboard/> </ProtectedRoute>}/>
         <Route path="/promoteur/mes-projets/:id" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails /> </ProtectedRoute>}/>
         <Route path="/promoteur/mes-projets/creer-projet" element={<ProtectedRoute allowedRoles={'promoteur'}> <CreateProject /> </ProtectedRoute>}/>
 
 
-        <Route path="client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <TousLesProjets/> </ProtectedRoute>}/>
-        <Route path="client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesReservations/> </ProtectedRoute>}/>
-        <Route path="client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesFavoris/> </ProtectedRoute>}/>
+        <Route path="/client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <TousLesProjets/> </ProtectedRoute>}/>
+        <Route path="/client/projets/:id" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientProjectDetails /> </ProtectedRoute>}/>
+        <Route path="/client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesReservations/> </ProtectedRoute>}/>
+        <Route path="/client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesFavoris/> </ProtectedRoute>}/>
 
         <Route path="non-autorise" element={<ProtectedRoute allowedRoles={['promoteur', 'client_physique', 'client_entreprise']}><NonAutorise/> </ProtectedRoute>}/>
         <Route path='about' element = {<About/>}/>

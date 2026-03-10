@@ -1,13 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
-import StarRating from './StarRating';
+import StarRating from '../pages/client/tousLesProjets/StarRating';
 import { 
   formatPrice, 
   formatSurface, 
   formatDate, 
   getStatutLabel, 
-  getStatutClass,
   getTypeBienLabel,
   truncateText 
 } from '../../utils/formatters';
@@ -17,7 +16,7 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
   const API_URL = 'http://localhost:3000'
   const handleViewDetails = () => {
     if(isClient) {
-      navigate(`/client-projects/${project._id}`)
+      navigate(`/client/projets/${project._id}`)
     }else{
       navigate(`/promoteur/mes-projets/${project._id}`);
     }

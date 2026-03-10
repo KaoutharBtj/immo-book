@@ -182,7 +182,7 @@ const ClientProjectDetails = () => {
                                         {project.galerie.map((img, index) => (
                                             <img 
                                                 key={index}
-                                                src={`${API_URL}${img}`}
+                                                src={`${API_URL}/${img}`}
                                                 alt={`Galerie ${index + 1}`}
                                                 className="w-full h-48 object-cover rounded-lg shadow"
                                             />
