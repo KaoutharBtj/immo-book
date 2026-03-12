@@ -20,7 +20,7 @@ const TousLesProjets = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div 
-                className="relative rounded-2xl overflow-hidden mb-8 shadow-xl h-80"
+                className="relative rounded-2xl overflow-hidden mb-8 shadow-xl h-110"
                 style={{ 
                     backgroundImage: `url('/assets/clientProjectPicture.jpeg')`,
                     backgroundSize: 'cover',

@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 import StarRating from '../pages/client/tousLesProjets/StarRating';
-import clientReviewService from '../../services/clientServices/clientReviewService'
+import clientReviewService from '../../services/clientServices/clientReviewService';
+import clientReservationService from '../../services/clientServices/clientReservationService'
 import { 
   formatPrice, 
   formatSurface, 
@@ -22,6 +23,17 @@ const ProjectCard = ({ project, onDelete, isClient= false, onRefresh}) => {
       navigate(`/promoteur/mes-projets/${project._id}`);
     }
   };
+
+  const handleReserve = async () => {
+    try{
+          if(isClient) {
+            await clientReservationService.createReservation(project._id);
+            alert("Le projet est bien réservé");
+          }
+    }catch(err) {
+      alert("Erreur", + err.message);
+    }
+  }
 
   const handleEdit = () => {
     navigate(`/promoteur/mes-projets/${project._id}`);
@@ -163,6 +175,7 @@ const ProjectCard = ({ project, onDelete, isClient= false, onRefresh}) => {
           ) : (
             <div className='flex gap-2'>
               <button 
+              onClick={handleReserve}
               className= "bg-[#a18651] hover:bg-[#B89C64] rounded-lg py-2 px-2 text-white text-sm font-medium transition-colors duration-200"
               title="reserver">
                 Réserver

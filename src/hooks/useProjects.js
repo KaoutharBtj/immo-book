@@ -1,11 +1,8 @@
-// hooks/useProjects.js
 import { useState, useEffect, useCallback } from 'react';
 import projectService from '../services/projectService';
 import clientProjectService from '../services/clientServices/clientProjectService';
 
-/**
- * Hook personnalisé pour gérer les projets
- */
+
 export const useProjects = (initialFilters = {}, isClient = false) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,9 +14,6 @@ export const useProjects = (initialFilters = {}, isClient = false) => {
   });
   const [filters, setFilters] = useState(initialFilters);
 
-  /**
-   * Charger les projets
-   */
   const loadProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -45,15 +39,13 @@ export const useProjects = (initialFilters = {}, isClient = false) => {
     }
   }, [filters]);
 
-  /**
-   * Créer un projet
-   */
+
   const createProject = async (projectData) => {
     setLoading(true);
     setError(null);
     try {
       const data = await projectService.createProject(projectData);
-      await loadProjects(); // Recharger la liste
+      await loadProjects(); 
       return data;
     } catch (err) {
       setError(err.message || 'Erreur lors de la création du projet');
@@ -63,15 +55,13 @@ export const useProjects = (initialFilters = {}, isClient = false) => {
     }
   };
 
-  /**
-   * Mettre à jour un projet
-   */
+
   const updateProject = async (projectId, projectData) => {
     setLoading(true);
     setError(null);
     try {
       const data = await projectService.updateProject(projectId, projectData);
-      await loadProjects(); // Recharger la liste
+      await loadProjects(); 
       return data;
     } catch (err) {
       setError(err.message || 'Erreur lors de la mise à jour du projet');
@@ -81,15 +71,12 @@ export const useProjects = (initialFilters = {}, isClient = false) => {
     }
   };
 
-  /**
-   * Supprimer un projet
-   */
   const deleteProject = async (projectId) => {
     setLoading(true);
     setError(null);
     try {
       const data = await projectService.deleteProject(projectId);
-      await loadProjects(); // Recharger la liste
+      await loadProjects(); 
       return data;
     } catch (err) {
       setError(err.message || 'Erreur lors de la suppression du projet');
@@ -99,28 +86,18 @@ export const useProjects = (initialFilters = {}, isClient = false) => {
     }
   };
 
-  /**
-   * Appliquer des filtres
-   */
   const applyFilters = (newFilters) => {
     setFilters({ ...filters, ...newFilters, page: 1 });
   };
 
-  /**
-   * Réinitialiser les filtres
-   */
   const resetFilters = () => {
     setFilters(initialFilters);
   };
 
-  /**
-   * Changer de page
-   */
   const changePage = (page) => {
     setFilters({ ...filters, page });
   };
 
-  // Charger les projets au montage et lors du changement des filtres
   useEffect(() => {
     loadProjects();
   }, [loadProjects]);
