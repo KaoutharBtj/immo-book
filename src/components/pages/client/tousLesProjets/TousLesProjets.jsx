@@ -19,7 +19,29 @@ const TousLesProjets = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
+            <div 
+                className="relative rounded-2xl overflow-hidden mb-8 shadow-xl h-80"
+                style={{ 
+                    backgroundImage: `url('/assets/clientProjectPicture.jpeg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+            >
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-black opacity-50"></div>
 
+                {/* Content on top */}
+                <div className="relative z-10 flex flex-col justify-center items-center h-full px-10 gap-6 text-center">
+                    <div>
+                        <h1 className="text-4xl font-bold text-white mb-3 leading-tight">
+                            Découvrez nos projets immobiliers
+                        </h1>
+                        <p className="text-gray-200 text-lg">
+                            Trouvez le bien de vos rêves parmi nos projets soigneusement sélectionnés à travers tout le Maroc.
+                        </p>
+                    </div>
+                </div>
+            </div>
             <ProjectFilters
                 onApplyFilters={applyFilters}
                 onResetFilters={resetFilters}

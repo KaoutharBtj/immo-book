@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
 import StarRating from '../pages/client/tousLesProjets/StarRating';
+import clientReviewService from '../../services/clientServices/clientReviewService'
 import { 
   formatPrice, 
   formatSurface, 
@@ -11,7 +12,7 @@ import {
   truncateText 
 } from '../../utils/formatters';
 
-const ProjectCard = ({ project, onDelete, isClient= false }) => {
+const ProjectCard = ({ project, onDelete, isClient= false, onRefresh}) => {
   const navigate = useNavigate();
   const API_URL = 'http://localhost:3000'
   const handleViewDetails = () => {
@@ -31,6 +32,16 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
       onDelete(project._id);
     }
   };
+
+  const handleReview = async (stars) => {
+    try {
+      await clientReviewService.createReview(project._id, stars);
+      alert("Avis envoyé avec succès");
+      if(onRefresh) onRefresh();
+    }catch(err) {
+      alert('Vous ne pouvez pas laisser un avis. Vous devez avoir une réservation acceptée pour ce projet.', +err.message);
+    }
+  }
 
   const getStatusColor = (statut) => {
     const colors = {
@@ -77,8 +88,9 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
           {isClient && (
             <StarRating 
               rating={project.averageStars} 
-              totalReviews={project.totalReviews}
               size="sm"
+              interactive= {true}
+              onRate={handleReview}
             />
           )}
         </div>
@@ -132,7 +144,7 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
           >
             Voir
           </button>
-          {!isClient && (
+          {!isClient ? (
             <div className="flex gap-2">
                 <button 
                     onClick={handleEdit}
@@ -148,7 +160,15 @@ const ProjectCard = ({ project, onDelete, isClient= false }) => {
                     <Trash size={16} color="black"/>
                 </button>
             </div>
-          ) }
+          ) : (
+            <div className='flex gap-2'>
+              <button 
+              className= "bg-[#a18651] hover:bg-[#B89C64] rounded-lg py-2 px-2 text-white text-sm font-medium transition-colors duration-200"
+              title="reserver">
+                Réserver
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ import CreateProject from './components/pages/promoteur/mesProjets/CreateProject
 
 import TousLesProjets from './components/pages/client/tousLesProjets/TousLesProjets';
 import ClientProjectDetails from './components/pages/client/tousLesProjets/ClientProjectDetails';
-import MesReservations from './components/pages/client/MesReservations';
+import MesReservations from './components/pages/client/mesReservations/MesReservations';
 import MesFavoris from './components/pages/client/MesFavoris';
 
 
