@@ -15,7 +15,6 @@ const MesReservations = () => {
     useEffect(() => {
         loadReservations();
     }, []);
-
     const loadReservations = async () => {
         try {
             setLoading(true);

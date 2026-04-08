@@ -1,9 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed } from "lucide-react";
+import React, { useState,  useEffect } from 'react';import { useNavigate } from 'react-router-dom';
+import { MapPin, Square, BadgeDollarSign, Eye, Trash, Calendar, Bed, Heart } from "lucide-react";
 import StarRating from '../pages/client/tousLesProjets/StarRating';
 import clientReviewService from '../../services/clientServices/clientReviewService';
 import clientReservationService from '../../services/clientServices/clientReservationService'
+import clientFavorisService from '../../services/clientServices/clientFavorisService';
 import { 
   formatPrice, 
   formatSurface, 
@@ -55,6 +55,30 @@ const ProjectCard = ({ project, onDelete, isClient= false, onRefresh}) => {
     }
   }
 
+const userId = localStorage.getItem("userId");
+const [isFavori, setIsFavori] = useState(
+  project.favoris?.includes(userId)
+);
+
+useEffect(() => {
+  if (project?.favoris) {
+    setIsFavori(project.favoris.includes(userId));
+  }
+}, [project, userId]);
+
+const handleFavori = async (e) => {
+    e.stopPropagation();
+    try {
+        if (isFavori) {
+            await clientFavorisService.removeFavoris(project._id);
+        } else {
+            await clientFavorisService.addFavoris(project._id);
+        }
+        setIsFavori(!isFavori);
+    } catch (err) {
+        alert('Erreur: ' + err.message);
+    }
+};
   const getStatusColor = (statut) => {
     const colors = {
       en_cours: 'bg-blue-100 text-blue-800',
@@ -81,6 +105,18 @@ const ProjectCard = ({ project, onDelete, isClient= false, onRefresh}) => {
         <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(project.statut)}`}>
           {getStatutLabel(project.statut)}
         </span>
+          {isClient && (
+                <button
+                    onClick={handleFavori}
+                    className="absolute top-3 left-3 bg-white p-2 rounded-full shadow hover:bg-red-50 transition-colors"
+                >
+                    <Heart 
+                        size={18} 
+                        className={isFavori ? 'text-red-500' : 'text-gray-400'}
+                        fill={isFavori ? '#ef4444' : 'none'}
+                    />
+                </button>
+            )}
       </div>
 
       <div className="p-4">
