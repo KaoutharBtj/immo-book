@@ -135,12 +135,6 @@ const PromoReservations = () => {
                 ))}
             </div>
 
-            {error && (
-                <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-                    <p className="font-medium">{error}</p>
-                </div>
-            )}
-
             {/* Reservations list */}
             {filteredReservations.length === 0 ? (
                 <div className="bg-white rounded-xl shadow p-12 text-center">
