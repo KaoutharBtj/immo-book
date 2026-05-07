@@ -4,6 +4,7 @@ import SharedLayout from './SharedLayout';
 import Signup from './components/authentication/Signup';
 import Login from './components/authentication/Login';
 import About from './components/about/About';
+import Home from './components/home/Home';
 import EmailVerification from './components/authentication/EmailVerification';
 import ProtectedRoute from './components/ProtectedRoute';
 import NonAutorise  from './components/NonAutorise';
@@ -35,12 +36,14 @@ function App() {
         <Route path="/promoteur/tableau-de-bord" element={<ProtectedRoute allowedRoles={'promoteur'}> <Dashboard/> </ProtectedRoute>}/>
         <Route path="/promoteur/mes-projets/:id" element={<ProtectedRoute allowedRoles={'promoteur'}> <ProjectDetails /> </ProtectedRoute>}/>
         <Route path="/promoteur/mes-projets/creer-projet" element={<ProtectedRoute allowedRoles={'promoteur'}> <CreateProject /> </ProtectedRoute>}/>
+        <Route path="/promoteur/accueil" element={<ProtectedRoute allowedRoles={'promoteur'}> <Home/> </ProtectedRoute>}/>
 
 
         <Route path="/client/projets" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <TousLesProjets/> </ProtectedRoute>}/>
         <Route path="/client/projets/:id" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <ClientProjectDetails /> </ProtectedRoute>}/>
         <Route path="/client/mes-reservations" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesReservations/> </ProtectedRoute>}/>
         <Route path="/client/favoris" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <MesFavoris/> </ProtectedRoute>}/>
+        <Route path="/client/accueil" element={<ProtectedRoute allowedRoles={['client_physique', 'client_entreprise']}> <Home/> </ProtectedRoute>} />
 
         <Route path="non-autorise" element={<ProtectedRoute allowedRoles={['promoteur', 'client_physique', 'client_entreprise']}><NonAutorise/> </ProtectedRoute>}/>
         <Route path='about' element = {<About/>}/>
